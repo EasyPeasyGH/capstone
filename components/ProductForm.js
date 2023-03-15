@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
 
-export default function ProductForm({ products }) {
+export default function ProductForm() {
   // const router = useRouter();
 
   // const [product, setProduct] = useState({});
@@ -79,38 +79,18 @@ export default function ProductForm({ products }) {
             type="text"
             id="name"
             name="name"
-            value={product.name}
-            onChange={(event) => setProduct(event.target.value)}
+            // value={product.name}
+            // onChange={(event) => setProduct(event.target.value)}
           />
         </label>
-        <label htmlFor="image">
-          Image:
+        <label htmlFor="images">
+          Images:
           <input
             type="text"
-            id="image"
-            name="image"
-            value={product.image}
-            onChange={(event) => setProduct(event.target.value)}
-          />
-        </label>
-        <label htmlFor="location">
-          Location:
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={product.location}
-            onChange={(event) => setProduct(event.target.value)}
-          />
-        </label>
-        <label htmlFor="map">
-          MapURL:
-          <input
-            type="text"
-            id="map"
-            name="map"
-            value={product.mapURL}
-            onChange={(event) => setProduct(event.target.value)}
+            id="images"
+            name="images"
+            // value={product.image}
+            // onChange={(event) => setProduct(event.target.value)}
           />
         </label>
         <label htmlFor="description">
@@ -119,12 +99,12 @@ export default function ProductForm({ products }) {
             type="text"
             id="description"
             name="description"
-            value={product.description}
-            onChange={(event) => setProduct(event.target.value)}
+            // value={product.description}
+            // onChange={(event) => setProduct(event.target.value)}
           />
         </label>
         <button className="appButton" type="submit">
-          {isEditMode ? "Edit product" : "Add new"}
+          Add new
         </button>
       </form>
     </>

@@ -3,7 +3,7 @@ import Head from "next/head";
 import ProductForm from "../components/ProductForm";
 import Link from "next/link";
 
-export default function Create({ products }) {
+export default function Create() {
   return (
     <>
       <Head>
@@ -12,7 +12,7 @@ export default function Create({ products }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ProductForm products={products} />
+      <ProductForm />
       <Link href="/">Back</Link>
     </>
   );
