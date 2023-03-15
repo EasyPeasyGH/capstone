@@ -3,27 +3,27 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function ProductForm({ products }) {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const [product, setProduct] = useState({});
+  // const [product, setProduct] = useState({});
 
-  async function getProduct() {
-    try {
-      const res = await fetch(`api/products/${id}`);
-      if (res.ok) {
-        console.log("res ok");
-        const data = await res.json();
-        setProduct(data);
-      }
-    } catch (error) {
-      console.error("Error: ", error);
-    }
-  }
+  // async function getProduct() {
+  //   try {
+  //     const res = await fetch(`api/products/${id}`);
+  //     if (res.ok) {
+  //       console.log("res ok");
+  //       const data = await res.json();
+  //       setProduct(data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error: ", error);
+  //   }
+  // }
 
-  useEffect(() => {
-    console.log("useEffect");
-    getProduct();
-  }, [id]);
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   getProduct();
+  // }, [id]);
 
   async function handleAddProduct(event) {
     event.preventDefault();
@@ -31,13 +31,16 @@ export default function ProductForm({ products }) {
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
 
-    const res = await fetch("/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    });
+    const res = await fetch(
+      `${process.env.BASE_URL}/api/products/${params.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      }
+    );
 
     console.log("Add", productData);
 
