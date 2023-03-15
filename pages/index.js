@@ -4,17 +4,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
+// import Product from "../db/models/Product";
 
 export async function getServerSideProps() {
-  try {
-    const res = await fetch("api/products");
-    if (res.ok) {
-      const data = await res.json();
-      console.log("res.ok data is", data);
-    }
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+  const res = await fetch(`${process.env.BASE_URL}/api/products`);
+  // const products = await Product.find();
+  // console.log("--- products --- ", products);
+  const data = await res.json();
   return {
     props: { data },
   };
@@ -22,6 +18,7 @@ export async function getServerSideProps() {
 
 export default function Home({ data }) {
   const [products, setProducts] = useState([]);
+  // setProducts(data);
 
   // async function fetchProducts() {
   //   try {
@@ -39,7 +36,7 @@ export default function Home({ data }) {
   useEffect(() => {
     console.log("useEffect triggered");
     setProducts(data);
-  }, []);
+  }, [data]);
 
   console.log("Index.js Products fetched before return()", products);
   return (

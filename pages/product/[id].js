@@ -5,52 +5,44 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
 
-export async function getServerSidePaths() {
-  try {
-    const res = await fetch(`api/products/${id}`);
-    if (res.ok) {
-      const data = await res.json();
-      console.log("res.ok data is", data);
-    }
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+// export async function getStaticPaths() {
+//   try {
+//     const res = await fetch(`api/products/${id}`);
+//     if (res.ok) {
+//       const data = await res.json();
+//       console.log("res.ok data is", data);
+//     }
+//   } catch (error) {
+//     console.error("Error: ", error);
+//   }
 
-  const paths = data.map((p) => {
-    return {
-      params: { id: p._id.toString() },
-    };
-  });
+//   const paths = data.map((p) => {
+//     return {
+//       params: { id: p._id.toString() },
+//     };
+//   });
 
-  return {
-    paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-export async function getServerSideProps(context) {
-  const id = context.params.id;
-  try {
-    const res = await fetch(`api/products/${id}`);
-    if (res.ok) {
-      const data = await res.json();
-      console.log("res.ok data is", data);
-    }
-  } catch (error) {
-    console.error("Error: ", error);
-  }
+export async function getServerSideProps({ params }) {
+  const res = await fetch(`${process.env.BASE_URL}/api/products/${params.id}`);
+  const data = await res.json();
   return {
     props: { data },
   };
 }
 
 export default function ProductDetail({ data }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const { push } = useRouter();
-  const [product, setProduct] = useState({});
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const { push } = useRouter();
+  // const [product, setProduct] = useState({});
 
-  console.log(id);
+  // setProduct(data);
 
   // async function fetchProduct() {
   //   try {
@@ -65,10 +57,10 @@ export default function ProductDetail({ data }) {
   //   }
   // }
 
-  useEffect(() => {
-    console.log("useEffect triggered");
-    setProduct(data);
-  }, []);
+  // useEffect(() => {
+  //   console.log("useEffect triggered");
+  //   setProduct(data);
+  // }, [data]);
 
   // async function handleDeleteProduct(id) {
   //   const response = await fetch(`/api/products/${id}`, { method: "DELETE" });
@@ -86,8 +78,10 @@ export default function ProductDetail({ data }) {
   //   push("../create/");
   // }
 
-  console.log("[id].js Product fetched before return()", product);
-  console.log("[id].js Images", product.images[0]);
+  // console.log(id);
+  // console.log("[id].js ", data);
+  // console.log("[id].js Product fetched before return()", product);
+  // console.log("[id].js Images", product.images[0]);
   return (
     <>
       <Head>
@@ -97,15 +91,11 @@ export default function ProductDetail({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="productDetail">
-        <img
-          src={product.images[0]}
-          alt={`Image for ${product.name}`}
-          width="100%"
-        />
+        <img src={data.images[0]} alt={`Image for ${data.name}`} width="100%" />
         <div className="productDetail__info">
-          <h3>{product.name}</h3>
+          <h3>{data.name}</h3>
 
-          <p>{product.description}</p>
+          <p>{data.description}</p>
         </div>
         <div>
           <button onClick={() => handleEditProduct(id)}>Edit</button>

@@ -5,15 +5,15 @@ export default function Footer() {
     <footer>
       <section className="newsletter">
         <h2>Keep updated with our newsletter</h2>
-        <form method="post" id="newsletter" accept-charset="UTF-8">
-          <label for="newsletter-email">Type your E-mail here:</label>
+        <form method="post" id="newsletter" acceptCharset="UTF-8">
+          <label htmlFor="newsletter-email">Type your E-mail here:</label>
           <input
             type="email"
             name="newsletter-email"
             id="newsletter-email"
             placeholder="email@provider.com"
-            autocorrect="off"
-            autocapitalize="off"
+            autoCorrect="off"
+            autoCapitalize="off"
             required
           ></input>
           <button type="submit">Subscribe&nbsp;→</button>

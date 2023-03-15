@@ -17,7 +17,7 @@ export default function Product({
 
   console.log("Images array", images[0]);
   return (
-    <div className="productDetail" onClick={() => router.push(`${id}`)}>
+    <div className="productDetail" onClick={() => router.push(`product/${id}`)}>
       <img
         src={`${images[0]}`}
         alt={`Image for ${name}`}
