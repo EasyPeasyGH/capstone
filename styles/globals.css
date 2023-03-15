@@ -1,0 +1,295 @@
+:root {
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --color-dark-1: hsl(210, 12%, 6%);
+  --color-dark-2: hsl(180, 8%, 12%);
+  --color-dark-3: hsl(180, 6%, 15%);
+  --color-mid-green: hsl(90, 24%, 24%);
+  --color-mid-yellow: hsl(45, 24%, 24%);
+  --color-mid-red: hsl(0, 24%, 24%);
+  --color-mid-blue: hsl(270, 24%, 24%);
+  --color-mid-1: hsl(150, 8%, 42%);
+  --color-mid-2: hsl(120, 6%, 66%);
+  --color-mid-3: hsl(120, 4%, 69%);
+  --color-light-1: hsl(90, 6%, 89%);
+  --color-light-2: hsl(90, 4%, 95%);
+  --color-light-3: hsl(60, 2%, 98%);
+  --color-light-3-a: hsla(60, 4%, 98%, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-dark-3);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-light-3);
+  color: var(--color-dark-1);
+  position: relative;
+  /* margin: 0.5rem;
+  outline: 1px solid var(--color-dark-1); */
+}
+
+header {
+  width: 100%;
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+.headerBar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  border-bottom: 1px solid var(--color-dark-1);
+  min-height: 6em;
+}
+
+.headerBar > h1 {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: -1;
+}
+
+.headerBar__box {
+  display: flex;
+  height: 100%;
+}
+
+.icon {
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon > a {
+  width: 1rem;
+}
+
+nav {
+  width: 100%;
+  padding: 1rem 0.5rem;
+  min-height: 6em;
+  display: flex;
+  align-items: center;
+}
+
+nav > ul {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+main {
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+img {
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+.error {
+  padding: 1rem 0.5rem 2rem 0.5rem;
+  text-align: center;
+}
+
+.outline {
+  outline: 1px solid var(--color-dark-1);
+}
+
+.grid {
+  display: grid;
+  gap: calc(var(--unit) / 2);
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1px;
+}
+
+.grid--padding {
+  padding: 0rem 0.5rem;
+}
+
+.grid--margin {
+  margin: 0.5rem 0rem;
+}
+
+.grid--center {
+  justify-content: center;
+  text-align: center;
+}
+
+.grid__item {
+  grid-column: 1 / -1;
+}
+
+.grid__item2 {
+  grid-column: 1 / -1;
+}
+
+.grid__item--full {
+  grid-column: 1 / -1;
+}
+
+@media screen and (min-width: 480px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 6;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 4;
+  }
+  .grid__item2:nth-child(1n) {
+    grid-column: 5 / 9;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 3;
+  }
+  .grid__item2:nth-child(1n) {
+    grid-column: span 6;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 2;
+  }
+}
+
+footer {
+}
+
+.footerBar {
+  width: 100%;
+  padding: 1rem 0.5rem 2rem 0.5rem;
+  min-height: 6em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footerBar > * {
+  margin-bottom: 1rem;
+}
+
+.footerBar * {
+  word-break: break-all;
+}
+
+.footerBar > p {
+  margin-top: 0;
+}
+
+.newsletter {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--color-dark-1);
+  text-align: center;
+}
+
+p {
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+ul,
+ol,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input {
+  height: 2rem;
+  color: var(--color-mid-1);
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: inherit;
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: calc(100vw * 1.5);
+}
+
+button {
+  padding: 0.5rem 0.7rem;
+  height: 2rem;
+  margin: 1rem;
+  background-color: var(--color-dark-1);
+  color: var(--color-light-3);
+}
+
+.productDetail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.productDetail h3 {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+  margin: 1rem 0rem;
+  width: 100%;
+  text-align: center;
+}
+
+.productDetail__info {
+  padding: 1rem 0.5rem;
+}
+
+.productDetail__info h4 {
+  margin: 0;
+}
+
+.productDetail__editBar {
+  height: 4rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid var(--color-light-1);
+}

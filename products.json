@@ -1,0 +1,101 @@
+[
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0250"
+    },
+    "name": "Candlestick, Fritz Nagel & Werner Stoff, BMF",
+    "description": "The Cologne gentlemen Stoff & Nagel came up with something very fine with the combi chandelier in the 60s. We love modular systems. This one is infinitely expandable and variable - for sculptures according to your mood.There are currently 5 left.",
+    "available": true,
+    "price": 30,
+    "category": "Candlestick",
+    "designer": "Fritz Nagel & Werner Stoff, BMF",
+    "condition": "Very good vintage condition - minimal patina",
+    "dimensions": { "width": 10, "depth": 10, "height": 7 },
+    "images": [
+      "/images/Nagel_Kerzenhalter_01.webp",
+      "/images/Nagel_Kerzenhalter_02.webp"
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0251"
+    },
+    "name": "Folding Chair Sebastian, Niels Gammelgaard",
+    "description": "Folding chair would be disrespectful. We have a crush on the sexy silhouette and to be honest we chose it to match our favorite nail polish color. Folding chair Sebastian in purple designed by Niels Gammelgaard for IKEA 1987. Made in Italy.",
+    "available": true,
+    "price": 160,
+    "category": "Chair",
+    "designer": "Niels Gammelgaard, IKEA",
+    "condition": "Good vintage condition - light scratches on plastic and chrome.",
+    "dimensions": { "width": 40, "depth": 40, "height": 76 },
+    "images": [
+      "/images/Gammelgaard_Klapp_01.webp",
+      "/images/Gammelgaard_Klapp_02.webp",
+      "/images/Gammelgaard_Klapp_03.webp"
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0252"
+    },
+    "name": "Table Lamp, Gura Leuchten",
+    "description": "We liked this classic model straight away. The spherical lampshade made of shiny chrome can be scrolled up and down and rotated in all directions thanks to the stand rod. 1970s.",
+    "available": true,
+    "price": 140,
+    "category": "Lamp",
+    "designer": "Gura Leuchten",
+    "condition": "Very good vintage condition - light scratches on the chrome.",
+    "dimensions": { "width": 14, "depth": 14, "height": 41 },
+    "images": ["/images/Kugeltischleuchte_01.webp"]
+  },
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0253"
+    },
+    "name": "OTI, chair, Niels Gammelgaard",
+    "description": "We are fans and have been looking for a long time. The OTI Chair is a design classic by the Danish architect Niels Gammelgaard - designed in 1986 for IKEA. At first glance it is reminiscent of the Diamond Chair, but it is more functional and geometric.",
+    "available": true,
+    "price": 360,
+    "category": "Chair",
+    "designer": "Niels Gammelgaard, IKEA",
+    "condition": "Age-related patina - some rust spots and paint damage",
+    "dimensions": { "width": 93, "depth": 93, "height": 80 },
+    "images": [
+      "/images/Oti_Gammelgaard_01.webp",
+      "/images/Oti_Gammelgaard_02.webp",
+      "/images/Oti_Gammelgaard_03.webp",
+      "/images/Oti_Gammelgaard_04.webp"
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0254"
+    },
+    "name": "Grund, Clothes rack, Niels Gammelgaard",
+    "description": "Red, red, red are all our clothes. In any case, the most beautiful dress gets a place of honor on the red clothes stand by the Danish architect Niels Gammelgaard - designed in 1982 for IKEA.",
+    "available": true,
+    "price": 40,
+    "category": "Clothes rack",
+    "designer": "Niels Gammelgaard, IKEA",
+    "condition": "Good vintage condition - a few small paint defects",
+    "dimensions": { "width": 45, "depth": 35, "height": 96 },
+    "images": ["/images/Kleiderstaender_StummerDiener_Gammelgaard_IKEA.webp"]
+  },
+  {
+    "_id": {
+      "$oid": "626a48a8916f633a190f0255"
+    },
+    "name": "Sommerso bowl, Murano glass",
+    "description": "This grande dame is looking for a worthy place where she can put out her feelers. Heavy pointed vase made of Murano glass. Manufactured using the Sommerso technique – several superimposed layers of different colors create a suggestive coloristic effect. This good piece consists of transparent glass with an opal blue interior and iridescent shades of green.",
+    "available": true,
+    "price": 85,
+    "category": "Bowl",
+    "designer": "Unkown",
+    "condition": "Very good vintage condition - minimal signs of wear",
+    "dimensions": { "width": 29, "depth": 18, "height": 15 },
+    "images": [
+      "/images/Schale_Gross_Muranoglas_Blau_01.webp",
+      "/images/Schale_Gross_Muranoglas_Blau_02.webp"
+    ]
+  }
+]
