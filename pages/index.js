@@ -20,25 +20,12 @@ export default function Home({ data }) {
   const [products, setProducts] = useState([]);
   // setProducts(data);
 
-  // async function fetchProducts() {
-  //   try {
-  //     const res = await fetch("api/products");
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       console.log(data);
-  //       setProducts(data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error: ", error);
-  //   }
-  // }
-
   useEffect(() => {
-    console.log("useEffect triggered");
+    console.log("Index.js – useEffect triggered");
     setProducts(data);
   }, [data]);
 
-  console.log("Index.js Products fetched before return()", products);
+  console.log("Index.js – products", products);
   return (
     <>
       <Head>
@@ -48,6 +35,9 @@ export default function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ProductList products={products} />
+      <section className="mainBottomNav">
+        <Link href="/create">Create</Link>
+      </section>
     </>
   );
 }

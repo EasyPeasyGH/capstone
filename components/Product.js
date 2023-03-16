@@ -15,7 +15,6 @@ export default function Product({
 }) {
   const router = useRouter();
 
-  console.log("Images array", images[0]);
   return (
     <div className="product" onClick={() => router.push(`product/${id}`)}>
       <img

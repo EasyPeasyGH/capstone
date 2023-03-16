@@ -13,7 +13,9 @@ export default function Create() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ProductForm />
-      <Link href="/">Back</Link>
+      <section className="mainBottomNav">
+        <Link href="/">Home</Link>
+      </section>
     </>
   );
 }
