@@ -90,16 +90,39 @@ export default function ProductDetail({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="productDetail">
-        <img src={data.images[0]} alt={`Image for ${data.name}`} width="100%" />
-        <div className="productDetail__info">
+      <section className="grid outline">
+        <div className="grid__item2 outline productDetail__imgBox">
+          {data.images.map((img, i) => (
+            <img
+              key={i}
+              className="grid__item2"
+              src={img}
+              alt={`Image ${i + 1} for ${data.name}`}
+              width="100%"
+            />
+          ))}
+          <div className="grid__Item--padding"></div>
+        </div>
+        <div className="grid__Item--padding grid__item2 outline">
           <h2>{data.name}</h2>
           <p>{data.description}</p>
+          <p>{`Category: ${data.category}`}</p>
+          <p>
+            {`Designer: ${data.designer}`}
+            {data.designer}
+          </p>
+          <p>{`Condition: ${data.condition}`}</p>
+          <p>{`Dimensions: ${data.dimensions.width} width x ${data.dimensions.depth} depth x ${data.dimensions.height} height`}</p>
+          <p>{data.available ? "Available" : "Sold out"}</p>
+          <h4>{`${data.price} €`}</h4>
         </div>
-        <div>
+        <div className="grid__Item--padding grid__itemFull productDetail__editBar">
           <button onClick={() => handleEditProduct(id)}>Edit</button>
           <button onClick={() => handleDeleteProduct(id)}> Delete</button>
         </div>
+      </section>
+      <section className="mainBottomNav">
+        <Link href="/">Home</Link>
       </section>
     </>
   );

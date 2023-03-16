@@ -17,7 +17,7 @@ export default function Product({
 
   console.log("Images array", images[0]);
   return (
-    <div className="productDetail" onClick={() => router.push(`product/${id}`)}>
+    <div className="product" onClick={() => router.push(`product/${id}`)}>
       <img
         src={`${images[0]}`}
         alt={`Image for ${name}`}
@@ -25,7 +25,7 @@ export default function Product({
         // layout="fill"
         // objectFit="contain"
       />
-      <div className="productDetail__info">
+      <div className="product__info">
         <h4>{name}</h4>
         <p>{`${price} €`}</p>
       </div>

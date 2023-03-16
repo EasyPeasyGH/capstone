@@ -4,7 +4,6 @@ export default function Header() {
   return (
     <header>
       <div className="headerBar">
-        <h1>Capstone</h1>
         <div className="headerBar__box">
           <div className="icon">
             <Link href="/menu" target="_self" alt="Link to menu">
@@ -21,6 +20,9 @@ export default function Header() {
             </Link>
           </div>
         </div>
+        <h1>
+          <Link href="/">Capstone</Link>
+        </h1>
         <div className="headerBar__box">
           <div className="icon">
             <Link href="/searchbar" target="_self" alt="Link to search bar">
