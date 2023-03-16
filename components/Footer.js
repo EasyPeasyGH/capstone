@@ -3,6 +3,9 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer>
+      <section className="footerNav">
+        <Link href="/">Home</Link>
+      </section>
       <section className="newsletter">
         <h2>Keep updated with our newsletter</h2>
         <form method="post" id="newsletter" acceptCharset="UTF-8">

@@ -93,8 +93,7 @@ export default function ProductDetail({ data }) {
       <section className="productDetail">
         <img src={data.images[0]} alt={`Image for ${data.name}`} width="100%" />
         <div className="productDetail__info">
-          <h3>{data.name}</h3>
-
+          <h2>{data.name}</h2>
           <p>{data.description}</p>
         </div>
         <div>
@@ -102,7 +101,6 @@ export default function ProductDetail({ data }) {
           <button onClick={() => handleDeleteProduct(id)}> Delete</button>
         </div>
       </section>
-      <Link href="/">Home</Link>
     </>
   );
 }

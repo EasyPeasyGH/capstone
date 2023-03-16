@@ -8,9 +8,9 @@ import styles from "../styles/Home.module.css";
 
 export async function getServerSideProps() {
   const res = await fetch(`${process.env.BASE_URL}/api/products`);
-  // const products = await Product.find();
-  // console.log("--- products --- ", products);
   const data = await res.json();
+  // const pro = await Product.find();
+  // console.log("pro - pro - pro - pro - pro", pro);
   return {
     props: { data },
   };

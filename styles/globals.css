@@ -38,6 +38,7 @@ body {
   position: relative;
   /* margin: 0.5rem;
   outline: 1px solid var(--color-dark-1); */
+  background-color: var(--color-light-3);
 }
 
 header {
@@ -179,6 +180,18 @@ img {
 footer {
 }
 
+.footerNav {
+  width: 100%;
+  padding: 1rem 0.5rem;
+  min-height: 6em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
 .footerBar {
   width: 100%;
   padding: 1rem 0.5rem 2rem 0.5rem;
@@ -254,9 +267,9 @@ input {
 }
 
 button {
-  padding: 0.5rem 0.7rem;
+  padding: 0.5rem 0.8rem;
   height: 2rem;
-  margin: 1rem;
+  margin: 1rem 0.5rem;
   background-color: var(--color-dark-1);
   color: var(--color-light-3);
 }
@@ -267,17 +280,9 @@ button {
   width: 100%;
 }
 
-.productDetail h3 {
-  font-size: 2rem;
-  font-weight: 500;
-  letter-spacing: 0.2rem;
-  margin: 1rem 0rem;
-  width: 100%;
-  text-align: center;
-}
-
 .productDetail__info {
   padding: 1rem 0.5rem;
+  min-height: 6rem;
 }
 
 .productDetail__info h4 {
