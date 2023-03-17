@@ -138,8 +138,7 @@ main {
   grid-column: 1 / -1;
 }
 
-.grid__Item--padding,
-.product > div {
+.grid__Item--padding {
   padding: 1rem 0.5rem;
   min-height: 6rem;
 }
@@ -150,36 +149,6 @@ main {
 
 .grid__itemFull {
   grid-column: 1 / -1;
-}
-
-@media screen and (min-width: 480px) {
-  .grid__item:nth-child(1n) {
-    grid-column: span 6;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .grid__item:nth-child(1n) {
-    grid-column: span 4;
-  }
-  .grid__item2:nth-child(1n) {
-    grid-column: span 6;
-  }
-}
-
-@media screen and (min-width: 1366px) {
-  .grid__item:nth-child(1n) {
-    grid-column: span 3;
-  }
-  .grid__item2:nth-child(1n) {
-    grid-column: span 4;
-  }
-}
-
-@media screen and (min-width: 1920px) {
-  .grid__item:nth-child(1n) {
-    grid-column: span 2;
-  }
 }
 
 footer {
@@ -194,6 +163,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  border-top: 1px solid var(--color-dark-1);
 }
 
 .footerBar {
@@ -278,8 +248,14 @@ button {
   color: var(--color-light-3);
 }
 
-.product > img {
-  border-bottom: 1px solid var(--color-dark-1);
+.product__info {
+  border-top: 1px solid var(--color-dark-1);
+  padding: 1rem 0.5rem;
+  min-height: 6rem;
+}
+
+.product h4 {
+  margin: 0;
 }
 
 .productDetail__imgBox > img {
@@ -287,13 +263,8 @@ button {
   display: block;
 }
 
-.product h4 {
-  margin: 0;
-}
-
-.productDetail_imgBox {
-  outline: 1px solid var(--color-dark-1);
-  height: 100%;
+.productDetail__imgBox > img:last-child {
+  border-bottom: 1px solid var(--color-dark-1);
 }
 
 .productDetail__editBar {
@@ -302,4 +273,41 @@ button {
   justify-content: space-around;
   align-items: center;
   outline: 1px solid var(--color-dark-1);
+}
+
+@media screen and (min-width: 480px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 6;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 4;
+  }
+  .grid__item2:nth-child(1n) {
+    grid-column: span 6;
+  }
+  .productDetail__imgBox {
+    border-right: 1px solid var(--color-dark-1);
+    height: 100%;
+  }
+  .productDetail__imgBox > img:last-child {
+    border-bottom: 0px;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 3;
+  }
+  .grid__item2:nth-child(1n) {
+    grid-column: span 4;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .grid__item:nth-child(1n) {
+    grid-column: span 2;
+  }
 }

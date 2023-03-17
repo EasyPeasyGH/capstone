@@ -1,29 +1,24 @@
 import Head from "next/head";
 import ProductList from "../components/ProductList";
 import { useState } from "react";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
-// import Product from "../db/models/Product";
+import Product from "../db/models/Product";
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.BASE_URL}/api/products`);
-  const data = await res.json();
-  // const pro = await Product.find();
-  // console.log("pro - pro - pro - pro - pro", pro);
+  const data = await Product.find();
   return {
-    props: { data },
+    props: { data: JSON.parse(JSON.stringify(data)) },
   };
 }
 
 export default function Home({ data }) {
-  const [products, setProducts] = useState([]);
-  // setProducts(data);
+  const [products, setProducts] = useState(data);
 
-  useEffect(() => {
-    console.log("Index.js – useEffect triggered");
-    setProducts(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("Index.js – useEffect triggered");
+  //   setProducts(data);
+  // }, [data]);
 
   console.log("Index.js – products", products);
   return (
