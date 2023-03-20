@@ -13,7 +13,7 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-export default function ProductDetail({ data }) {
+export default function ProductDetail({ data, setProductToEdit }) {
   const router = useRouter();
   const { push } = router;
 
@@ -33,7 +33,7 @@ export default function ProductDetail({ data }) {
   }
 
   async function handleEditProduct() {
-    console.log("E D I T –", data._id);
+    setProductToEdit(data);
     push("../create/");
   }
 
@@ -57,7 +57,7 @@ export default function ProductDetail({ data }) {
             />
           ))}
         </div>
-        <div className="grid__Item--padding grid__item2">
+        <div className="grid__item--padding grid__item2">
           <h2>{data.name}</h2>
           <p>{data.description}</p>
           <p>{`Category: ${data.category}`}</p>
@@ -67,7 +67,7 @@ export default function ProductDetail({ data }) {
           <p>{data.available ? "Available" : "Sold out"}</p>
           <h4>{`${data.price} €`}</h4>
         </div>
-        <div className="grid__Item--padding grid__itemFull productDetail__editBar">
+        <div className="grid__item--padding grid__itemFull productDetail__editBar">
           <button onClick={() => handleEditProduct()}>Edit</button>
           <button onClick={() => handleDeleteProduct()}> Delete</button>
         </div>

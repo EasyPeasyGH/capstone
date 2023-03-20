@@ -1,12 +1,45 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { redirect } from "next/dist/server/api-utils";
+import { headers } from "../next.config";
 
-export default function ProductForm() {
+export default function ProductForm({ productToEdit, setProductToEdit }) {
   const router = useRouter();
 
-  async function handleAddProduct(event) {
+  const [previewFileSource, setPreviewFileSource] = useState("");
+
+  function previewFile(event) {
+    const files = event.target.files;
+    console.log(`event.target.files`, event.target.files[0]);
+    // files.map((file, i) => {
+    //   console.log(`--- ${i} ---`, file);
+    // });
+
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewFileSource(reader.result);
+    };
+    // const images = [];
+    // setPreviewFileSource(images);
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
+
+    // if (!previewFileSource) return;
+    // try {
+    //   await fetch("/api/products", {
+    //     method: "POST",
+    //     body: JSON.stringify({ data: previewFileSource }),
+    //     headers: { "Content-type": "application/json" },
+    //     // { Authorization: "Basic" + Buffer.from(process.env.CLOUDKEY +  ":" + process.env.CLOUDSECRET).toString("base64")},
+    //   });
+    // } catch {
+    //   console.error("Error", error);
+    // }
 
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
@@ -20,26 +53,47 @@ export default function ProductForm() {
     productData.dimensions = {
       width: Number(productData.width),
       depth: Number(productData.depth),
-      heigth: Number(productData.height),
+      height: Number(productData.height),
     };
     delete productData.width;
     delete productData.depth;
     delete productData.height;
 
-    const res = await fetch(`http://localhost:3000/api/products`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    });
+    if (productToEdit) {
+      console.log("productToEdit_id", productToEdit._id);
+      const response = await fetch(`/api/products/${productToEdit._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
 
-    if (res.ok) {
-      await res.json();
-      event.target.reset();
-      router.push("/");
+      if (response.ok) {
+        await response.json();
+        event.target.reset();
+        router.push("/");
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+      setProductToEdit();
     } else {
-      console.error(res.status);
+      console.log("Create N E W", productToEdit._id);
+      const response = await fetch(`/api/products`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (response.ok) {
+        await response.json();
+        event.target.reset();
+        router.push("/");
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
     }
   }
 
@@ -55,47 +109,59 @@ export default function ProductForm() {
   return (
     <>
       <form
+        className="grid"
         onSubmit={(event) => {
-          handleAddProduct(event);
+          handleSubmit(event);
         }}
       >
-        <label htmlFor="name">
+        <label className="grid__itemFull" htmlFor="name">
           Name:
           <input
             type="text"
             id="name"
             name="name"
             required
-            defaultValue="Name TestObject"
-            // value={product.name}
-            // onChange={(event) => setProduct(event.target.value)}
+            defaultValue={
+              productToEdit ? productToEdit.name : "Name TestObject"
+            }
           />
         </label>
-        <label htmlFor="description">
+
+        <label className="grid__itemFull" htmlFor="description">
           Description:
           <textarea
             type="text"
             id="description"
             name="description"
             required
-            defaultValue="Desc TestObject"
-            // value={product.description}
-            // onChange={(event) => setProduct(event.target.value)}
+            defaultValue={
+              productToEdit
+                ? productToEdit.description
+                : "Description TestObject"
+            }
           />
         </label>
-        <label htmlFor="price">
+
+        <label className="grid__itemFull" htmlFor="price">
           Price:
           <input
             type="number"
             id="price"
             name="price"
-            defaultValue={9}
+            defaultValue={productToEdit ? productToEdit.price : 9}
             required
           />
         </label>
-        <label htmlFor="category">
+
+        <label className="grid__itemFull" htmlFor="category">
           Category:
-          <input list="category" name="category" defaultValue="Miscellaneous" />
+          <input
+            list="category"
+            name="category"
+            defaultValue={
+              productToEdit ? productToEdit.category : "Miscellaneous"
+            }
+          />
           <datalist id="category">
             <option value="Chair" />
             <option value="Lamp" />
@@ -105,58 +171,92 @@ export default function ProductForm() {
             <option value="Miscellaneous" />
           </datalist>
         </label>
-        <label htmlFor="designer">
+
+        <label className="grid__itemFull" htmlFor="designer">
           Designer:
           <input
             type="text"
             id="designer"
             name="designer"
-            defaultValue="Hello"
+            defaultValue={productToEdit ? productToEdit.designer : "Designer"}
           />
         </label>
-        <label htmlFor="condition">
+
+        <label className="grid__itemFull" htmlFor="condition">
           Condition:
           <input
             type="text"
             id="condition"
             name="condition"
-            defaultValue="Good"
+            defaultValue={
+              productToEdit ? productToEdit.condition : "Good condition"
+            }
           />
         </label>
-        <label htmlFor="available">
+
+        <label className="grid__itemFull" htmlFor="available">
           Available:
           <input
             type="checkbox"
             id="available"
             name="available"
-            defaultValue={true}
+            defaultChecked={productToEdit ? productToEdit.available : true}
           />
         </label>
-        <label htmlFor="width">
+
+        <label className="grid__itemFull" htmlFor="width">
           Width:
-          <input type="number" id="width" name="width" defaultValue={9} />
+          <input
+            type="number"
+            id="width"
+            name="width"
+            defaultValue={productToEdit ? productToEdit.dimensions.width : 9}
+          />
         </label>
-        <label htmlFor="depth">
+
+        <label className="grid__itemFull" htmlFor="depth">
           Depth:
-          <input type="number" id="depth" name="depth" defaultValue={9} />
+          <input
+            type="number"
+            id="depth"
+            name="depth"
+            defaultValue={productToEdit ? productToEdit.dimensions.depth : 9}
+          />
         </label>
-        <label htmlFor="height">
+
+        <label className="grid__itemFull" htmlFor="height">
           Height:
-          <input type="number" id="height" name="height" defaultValue={9} />
+          <input
+            type="number"
+            id="height"
+            name="height"
+            defaultValue={productToEdit ? productToEdit.dimensions.height : 9}
+          />
         </label>
-        <label htmlFor="images">
+
+        <label className="grid__itemFull" htmlFor="images">
           Images:
           <input
             type="file"
             id="images"
             name="images"
-            accept="image/png, image/jpeg"
-            // value={product.image}
-            // onChange={(event) => setProduct(event.target.value)}
+            accept="image/png, image/jpeg, image/webp"
             multiple
+            onChange={previewFile}
           />
         </label>
-        <button type="submit">Add new product</button>
+
+        {previewFileSource && (
+          <img
+            src={previewFileSource}
+            alt={`Selected image ${previewFileSource}`}
+            className="grid__itemFull"
+          />
+        )}
+
+        <button className="grid__itemFull" type="submit">
+          {productToEdit ? "Edit product" : "Create product"}
+        </button>
       </form>
     </>
   );

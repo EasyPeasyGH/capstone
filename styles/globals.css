@@ -138,7 +138,7 @@ main {
   grid-column: 1 / -1;
 }
 
-.grid__Item--padding {
+.grid__item--padding {
   padding: 1rem 0.5rem;
   min-height: 6rem;
 }
@@ -216,15 +216,19 @@ form {
   align-items: center;
 }
 
+form img {
+  width: 10%;
+}
+
 label {
-  height: 2rem;
+  min-height: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 input {
-  height: 2rem;
+  min-height: 2rem;
   color: var(--color-mid-1);
   font-size: 1rem;
   display: inline-flex;
