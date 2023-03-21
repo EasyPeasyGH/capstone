@@ -11,19 +11,20 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
 
   function previewFile(event) {
     const files = event.target.files;
-    console.log(`event.target.files`, event.target.files[0]);
-    // files.map((file, i) => {
-    //   console.log(`--- ${i} ---`, file);
-    // });
+    console.log(`files`, files);
+    const filesFromReader = [];
 
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewFileSource(reader.result);
-    };
-    // const images = [];
-    // setPreviewFileSource(images);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log(`file`, file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        filesFromReader.push(reader.result);
+      };
+    }
+    console.log("filesFromReader", filesFromReader);
+    setPreviewFileSource(filesFromReader);
   }
 
   async function handleSubmit(event) {
@@ -41,7 +42,20 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     //   console.error("Error", error);
     // }
 
+    const fileInput = Array.from(event.target.elements).find(
+      ({ name }) => name === "images"
+    );
+    console.log(fileInput);
+
     const formData = new FormData(event.target);
+
+    console.log("formData", formData);
+
+    for (const file of fileInput.files) {
+      console.log("file", file);
+      formData.append("file", file);
+    }
+
     const productData = Object.fromEntries(formData);
 
     if (productData.available === "on") {
@@ -78,7 +92,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
       }
       setProductToEdit();
     } else {
-      console.log("Create N E W", productToEdit._id);
+      console.log("Create N E W");
       const response = await fetch(`/api/products`, {
         method: "POST",
         headers: {
@@ -106,6 +120,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
   //   console.log("Edit", productData);
   // }
 
+  console.log("previewFileSource", previewFileSource);
   return (
     <>
       <form
@@ -247,11 +262,22 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
         </label>
 
         {previewFileSource && (
-          <img
-            src={previewFileSource}
-            alt={`Selected image ${previewFileSource}`}
-            className="grid__itemFull grid__item--padding"
-          />
+          <>
+            {previewFileSource.map((file, i) => (
+              <img
+                key={i}
+                src={file}
+                alt={`Selected image ${file}`}
+                className="grid__item grid__item--padding"
+              />
+            ))}
+            <p>{previewFileSource.length}</p>
+            <img
+              src={previewFileSource[0]}
+              alt={`Selected image ${previewFileSource[0]}`}
+              className="grid__item grid__item--padding"
+            />
+          </>
         )}
 
         <button className="grid__item2" type="submit">
