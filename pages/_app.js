@@ -4,8 +4,9 @@ import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
   const [productToEdit, setProductToEdit] = useState();
+
   return (
-    <Layout setProductToEdit={setProductToEdit}>
+    <Layout>
       <Component
         productToEdit={productToEdit}
         setProductToEdit={setProductToEdit}

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import ProductList from "../components/ProductList";
-import { useState } from "react";
+import FilterBar from "../components/FilterBar";
+import { useEffect, useState } from "react";
 // import { useEffect } from "react";
 import Link from "next/link";
 import Product from "../db/models/Product";
@@ -15,12 +16,18 @@ export async function getServerSideProps() {
 export default function Home({ data }) {
   const [products, setProducts] = useState(data);
 
-  // useEffect(() => {
-  //   console.log("Index.js – useEffect triggered");
-  //   setProducts(data);
-  // }, [data]);
+  function showAll(data) {
+    setProducts(data);
+    push("/");
+  }
 
-  console.log("Index.js – products", products);
+  function filterFor(data, prop) {
+    const filteredProducts = data.filter((p) => p.category === prop);
+    setProducts(filteredProducts);
+    push("/");
+  }
+
+  console.log("I N D E X <--– products", products);
   return (
     <>
       <Head>
@@ -29,6 +36,7 @@ export default function Home({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <FilterBar />
       <ProductList products={products} />
       <section className="mainBottomNav">
         <Link href="/create">Create</Link>

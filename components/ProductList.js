@@ -3,7 +3,7 @@ import Product from "./Product";
 
 export default function ProductList({ products }) {
   const router = useRouter();
-
+  console.log("ProductList <---");
   return (
     <>
       <ul className="grid">
