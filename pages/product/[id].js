@@ -5,9 +5,12 @@ import Head from "next/head";
 // import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Product from "../../db/models/Product";
+import dbConnect from "../../db/connect";
 
 export async function getServerSideProps({ params }) {
+  await dbConnect();
   const data = await Product.findById(params.id);
+  console.log("data - data - data", data);
   return {
     props: { data: JSON.parse(JSON.stringify(data)) },
   };

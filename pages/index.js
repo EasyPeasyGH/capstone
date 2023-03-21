@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 // import { useEffect } from "react";
 import Link from "next/link";
 import Product from "../db/models/Product";
+import dbConnect from "../db/connect";
 
 export async function getServerSideProps() {
+  await dbConnect();
+
   const data = await Product.find();
   return {
     props: { data: JSON.parse(JSON.stringify(data)) },
