@@ -250,11 +250,11 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           <img
             src={previewFileSource}
             alt={`Selected image ${previewFileSource}`}
-            className="grid__itemFull"
+            className="grid__itemFull grid__item--padding"
           />
         )}
 
-        <button className="grid__itemFull" type="submit">
+        <button className="grid__item2" type="submit">
           {productToEdit ? "Edit product" : "Create product"}
         </button>
       </form>
