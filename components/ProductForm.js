@@ -11,7 +11,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
 
   function previewFile(event) {
     const files = event.target.files;
-    console.log(`files`, files);
+    console.log(`event.target.files`, files);
     const filesFromReader = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -29,34 +29,34 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    // if (!previewFileSource) return;
-    // try {
-    //   await fetch("/api/products", {
-    //     method: "POST",
-    //     body: JSON.stringify({ data: previewFileSource }),
-    //     headers: { "Content-type": "application/json" },
-    //     // { Authorization: "Basic" + Buffer.from(process.env.CLOUDKEY +  ":" + process.env.CLOUDSECRET).toString("base64")},
-    //   });
-    // } catch {
-    //   console.error("Error", error);
-    // }
-
-    const fileInput = Array.from(event.target.elements).find(
-      ({ name }) => name === "images"
-    );
-    console.log(fileInput);
-
     const formData = new FormData(event.target);
-
-    console.log("formData", formData);
-
-    for (const file of fileInput.files) {
-      console.log("file", file);
-      formData.append("file", file);
-    }
-
     const productData = Object.fromEntries(formData);
+    console.log("Object.fromEntries(formData)", productData);
+
+    const images = [];
+    if (event.target.images.files.length > 0) {
+      for (let i = 0; i < event.target.images.files.length; i++) {
+        const fileFormData = new FormData();
+        const file = event.target.images.files[i];
+        fileFormData.append("file", file);
+        fileFormData.append("upload_preset", "mog5j9qy");
+        const data = await fetch(
+          "https://api.cloudinary.com/v1_1/dhvjdtncn/image/upload",
+          {
+            method: "POST",
+            body: fileFormData,
+          }
+        ).then((r) => r.json());
+
+        images.push(data.secure_url);
+      }
+    } else {
+      images.push("product_placeholder_image.jpg");
+    }
+    console.log("images", images);
+
+    delete productData.images;
+    productData.images = images;
 
     if (productData.available === "on") {
       productData.available = true;
@@ -272,11 +272,11 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
               />
             ))}
             <p>{previewFileSource.length}</p>
-            <img
+            {/* <img
               src={previewFileSource[0]}
               alt={`Selected image ${previewFileSource[0]}`}
               className="grid__item grid__item--padding"
-            />
+            /> */}
           </>
         )}
 
