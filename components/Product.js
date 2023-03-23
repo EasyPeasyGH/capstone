@@ -18,8 +18,12 @@ export default function Product({
   return (
     <div className="product" onClick={() => router.push(`product/${id}`)}>
       <img
-        src={`${images[0]}`}
-        alt={`Image for ${name}`}
+        src={typeof images[0] === "string" ? `${images[0]}` : "Empty"}
+        alt={
+          typeof images[0] === "string"
+            ? `Image for ${name}`
+            : `No image for ${name}`
+        }
         width="100%"
         // layout="fill"
         // objectFit="contain"

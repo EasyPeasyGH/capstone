@@ -10,19 +10,16 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
   const [previewFileSource, setPreviewFileSource] = useState("");
 
   function handlePreview(event) {
-    event.preventDefault();
     const files = event.target.files;
     const filesFromReader = [];
     for (let i = 0; i < files.length; i++) {
-      const file = files[i];
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        console.log(`P R E V I E W`, reader.result);
-        filesFromReader.push(reader.result);
+      reader.readAsDataURL(files[i]);
+      reader.onloadend = (event) => {
+        filesFromReader.push(event.target.result);
+        setPreviewFileSource(filesFromReader);
       };
     }
-    setPreviewFileSource(filesFromReader);
   }
 
   async function handleImagesUpload(formImages) {
@@ -108,7 +105,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     }
   }
 
-  console.log("previewFileSource", previewFileSource);
+  console.log("previewFileSource", previewFileSource.slice(0));
   return (
     <>
       <form
@@ -197,16 +194,6 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           />
         </label>
 
-        <label className="grid__itemFull" htmlFor="available">
-          Available:
-          <input
-            type="checkbox"
-            id="available"
-            name="available"
-            defaultChecked={productToEdit ? productToEdit.available : true}
-          />
-        </label>
-
         <label className="grid__itemFull" htmlFor="width">
           Width:
           <input
@@ -251,24 +238,32 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           />
         </label>
 
-        {previewFileSource && (
-          <>
-            {previewFileSource.map((file, i) => (
-              <img
-                key={i}
-                src={file}
-                alt={`Selected image ${file}`}
-                className="grid__item grid__item--padding"
-              />
-            ))}
-            <p>{previewFileSource.length}</p>
-            {/* <img
-              src={previewFileSource[0]}
-              alt={`Selected image ${previewFileSource[0]}`}
-              className="grid__item grid__item--padding"
-            /> */}
-          </>
-        )}
+        <section className="grid__itemFull grid">
+          {previewFileSource ? (
+            <>
+              {previewFileSource.map((file, i) => (
+                <img
+                  key={i}
+                  src={file}
+                  alt={`Selected image ${i}`}
+                  className="grid__item025 outline"
+                />
+              ))}
+            </>
+          ) : (
+            <h4 className="grid__itemFull">Please select an image</h4>
+          )}
+        </section>
+
+        <label className="grid__itemFull" htmlFor="available">
+          Available:
+          <input
+            type="checkbox"
+            id="available"
+            name="available"
+            defaultChecked={productToEdit ? productToEdit.available : true}
+          />
+        </label>
 
         <button className="grid__item2" type="submit">
           {productToEdit ? "Edit product" : "Create product"}
