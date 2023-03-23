@@ -10,14 +10,15 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
   const [previewFileSource, setPreviewFileSource] = useState("");
 
   function handlePreview(event) {
-    event.preventDefault();
+    console.log("event 1", event);
     const files = event.target.files;
     const filesFromReader = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onloadend = (event) => {
+        console.log("event 2", event);
         console.log(`P R E V I E W`, reader.result);
         filesFromReader.push(reader.result);
       };
