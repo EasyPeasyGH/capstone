@@ -139,6 +139,10 @@ sub {
   text-align: center;
 }
 
+.grid__item025 {
+  grid-column: span 6;
+}
+
 .grid__item {
   grid-column: 1 / -1;
 }
@@ -222,7 +226,20 @@ form {
 }
 
 form img {
-  height: 9rem;
+  width: 100%;
+}
+
+form section {
+  border-top: 1px solid var(--color-dark-1);
+  border-bottom: 1px solid var(--color-dark-1);
+  margin-top: 0.5rem;
+  min-height: 6rem;
+}
+
+form section > h4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 img {
@@ -239,16 +256,17 @@ label {
 
 input,
 textarea {
-  width: 100%;
-  height: 2.5rem;
+  width: 50%;
+  height: 3rem;
   padding: 0.5rem;
   color: var(--color-mid-1);
   font-size: 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   background-color: inherit;
   border-bottom: 1px solid var(--color-light-1);
+}
+
+#available {
+  height: 1rem;
 }
 
 input:focus,
@@ -311,6 +329,9 @@ button {
   .grid__item:nth-child(1n) {
     grid-column: span 6;
   }
+  .grid__item025 {
+    grid-column: span 4;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -319,6 +340,9 @@ button {
   }
   .grid__item2:nth-child(1n) {
     grid-column: span 6;
+  }
+  .grid__item025 {
+    grid-column: span 3;
   }
   .productDetail__imgBox {
     border-right: 1px solid var(--color-dark-1);
@@ -335,6 +359,9 @@ button {
   }
   .grid__item2:nth-child(1n) {
     grid-column: span 4;
+  }
+  .grid__item025 {
+    grid-column: span 2;
   }
 }
 
