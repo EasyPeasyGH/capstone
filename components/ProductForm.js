@@ -9,40 +9,51 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
 
   const [previewFileSource, setPreviewFileSource] = useState("");
 
-  function previewFile(event) {
+  function handlePreview(event) {
+    event.preventDefault();
     const files = event.target.files;
-    console.log(`event.target.files`, event.target.files[0]);
-    // files.map((file, i) => {
-    //   console.log(`--- ${i} ---`, file);
-    // });
+    const filesFromReader = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        console.log(`P R E V I E W`, reader.result);
+        filesFromReader.push(reader.result);
+      };
+    }
+    setPreviewFileSource(filesFromReader);
+  }
 
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewFileSource(reader.result);
-    };
-    // const images = [];
-    // setPreviewFileSource(images);
+  async function handleImagesUpload(formImages) {
+    const urlImages = [];
+    if (formImages.length > 0) {
+      const fileFormData = new FormData();
+      for (let i = 0; i < formImages.length; i++) {
+        const file = formImages[i];
+        fileFormData.append("file", file);
+        fileFormData.append("upload_preset", "mog5j9qy");
+        const data = await fetch(
+          "https://api.cloudinary.com/v1_1/dhvjdtncn/image/upload",
+          {
+            method: "POST",
+            body: fileFormData,
+          }
+        ).then((r) => r.json());
+        urlImages.push(data.secure_url);
+      }
+    } else {
+      urlImages.push("product_placeholder_image.jpg");
+    }
+    return urlImages;
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    // if (!previewFileSource) return;
-    // try {
-    //   await fetch("/api/products", {
-    //     method: "POST",
-    //     body: JSON.stringify({ data: previewFileSource }),
-    //     headers: { "Content-type": "application/json" },
-    //     // { Authorization: "Basic" + Buffer.from(process.env.CLOUDKEY +  ":" + process.env.CLOUDSECRET).toString("base64")},
-    //   });
-    // } catch {
-    //   console.error("Error", error);
-    // }
-
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
+
+    productData.images = await handleImagesUpload(event.target.images.files);
 
     if (productData.available === "on") {
       productData.available = true;
@@ -60,7 +71,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     delete productData.height;
 
     if (productToEdit) {
-      console.log("productToEdit_id", productToEdit._id);
+      console.log("E D I T", productToEdit._id);
       const response = await fetch(`/api/products/${productToEdit._id}`, {
         method: "PUT",
         headers: {
@@ -78,7 +89,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
       }
       setProductToEdit();
     } else {
-      console.log("Create N E W", productToEdit._id);
+      console.log("C R E A T E");
       const response = await fetch(`/api/products`, {
         method: "POST",
         headers: {
@@ -97,15 +108,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     }
   }
 
-  // async function handleEditProduct(event) {
-  //   event.preventDefault();
-
-  //   const formData = new FormData(event.target);
-  //   const productData = Object.fromEntries(formData);
-
-  //   console.log("Edit", productData);
-  // }
-
+  console.log("previewFileSource", previewFileSource);
   return (
     <>
       <form
@@ -242,16 +245,29 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
             name="images"
             accept="image/png, image/jpeg, image/webp"
             multiple
-            onChange={previewFile}
+            onChange={(event) => {
+              handlePreview(event);
+            }}
           />
         </label>
 
         {previewFileSource && (
-          <img
-            src={previewFileSource}
-            alt={`Selected image ${previewFileSource}`}
-            className="grid__itemFull grid__item--padding"
-          />
+          <>
+            {previewFileSource.map((file, i) => (
+              <img
+                key={i}
+                src={file}
+                alt={`Selected image ${file}`}
+                className="grid__item grid__item--padding"
+              />
+            ))}
+            <p>{previewFileSource.length}</p>
+            {/* <img
+              src={previewFileSource[0]}
+              alt={`Selected image ${previewFileSource[0]}`}
+              className="grid__item grid__item--padding"
+            /> */}
+          </>
         )}
 
         <button className="grid__item2" type="submit">

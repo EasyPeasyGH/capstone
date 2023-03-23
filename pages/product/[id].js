@@ -40,6 +40,8 @@ export default function ProductDetail({ data, setProductToEdit }) {
     push("../create/");
   }
 
+  console.log("Product <--- data", data);
+
   return (
     <>
       <Head>
