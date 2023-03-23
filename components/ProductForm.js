@@ -9,35 +9,28 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
 
   const [previewFileSource, setPreviewFileSource] = useState("");
 
-  function previewFile(event) {
+  function handlePreview(event) {
+    event.preventDefault();
     const files = event.target.files;
-    console.log(`event.target.files`, files);
     const filesFromReader = [];
-
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(`file`, file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onloadend = () => {
+      reader.onload = () => {
+        console.log(`P R E V I E W`, reader.result);
         filesFromReader.push(reader.result);
       };
     }
-    console.log("filesFromReader", filesFromReader);
     setPreviewFileSource(filesFromReader);
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const productData = Object.fromEntries(formData);
-    console.log("Object.fromEntries(formData)", productData);
-
-    const images = [];
-    if (event.target.images.files.length > 0) {
-      for (let i = 0; i < event.target.images.files.length; i++) {
-        const fileFormData = new FormData();
-        const file = event.target.images.files[i];
+  async function handleImagesUpload(formImages) {
+    const urlImages = [];
+    if (formImages.length > 0) {
+      const fileFormData = new FormData();
+      for (let i = 0; i < formImages.length; i++) {
+        const file = formImages[i];
         fileFormData.append("file", file);
         fileFormData.append("upload_preset", "mog5j9qy");
         const data = await fetch(
@@ -47,16 +40,20 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
             body: fileFormData,
           }
         ).then((r) => r.json());
-
-        images.push(data.secure_url);
+        urlImages.push(data.secure_url);
       }
     } else {
-      images.push("product_placeholder_image.jpg");
+      urlImages.push("product_placeholder_image.jpg");
     }
-    console.log("images", images);
+    return urlImages;
+  }
 
-    delete productData.images;
-    productData.images = images;
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const productData = Object.fromEntries(formData);
+
+    productData.images = await handleImagesUpload(event.target.images.files);
 
     if (productData.available === "on") {
       productData.available = true;
@@ -74,7 +71,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     delete productData.height;
 
     if (productToEdit) {
-      console.log("productToEdit_id", productToEdit._id);
+      console.log("E D I T", productToEdit._id);
       const response = await fetch(`/api/products/${productToEdit._id}`, {
         method: "PUT",
         headers: {
@@ -92,7 +89,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
       }
       setProductToEdit();
     } else {
-      console.log("Create N E W");
+      console.log("C R E A T E");
       const response = await fetch(`/api/products`, {
         method: "POST",
         headers: {
@@ -110,15 +107,6 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
       }
     }
   }
-
-  // async function handleEditProduct(event) {
-  //   event.preventDefault();
-
-  //   const formData = new FormData(event.target);
-  //   const productData = Object.fromEntries(formData);
-
-  //   console.log("Edit", productData);
-  // }
 
   console.log("previewFileSource", previewFileSource);
   return (
@@ -257,7 +245,9 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
             name="images"
             accept="image/png, image/jpeg, image/webp"
             multiple
-            onChange={previewFile}
+            onChange={(event) => {
+              handlePreview(event);
+            }}
           />
         </label>
 

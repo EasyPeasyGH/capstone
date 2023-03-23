@@ -12,7 +12,7 @@
   --color-mid-1: hsl(150, 8%, 42%);
   --color-mid-2: hsl(120, 6%, 66%);
   --color-mid-3: hsl(120, 4%, 69%);
-  --color-light-1: hsl(90, 6%, 89%);
+  --color-light-1: hsl(90, 6%, 86%);
   --color-light-2: hsl(90, 4%, 95%);
   --color-light-3: hsl(60, 2%, 98%);
   --color-light-3-a: hsla(60, 4%, 98%, 0.4);
@@ -105,6 +105,14 @@ nav {
 
 main {
   border-bottom: 1px solid var(--color-dark-1);
+}
+
+svg {
+}
+
+sup,
+sub {
+  color: inherit;
 }
 
 .error {
@@ -217,6 +225,10 @@ form img {
   height: 9rem;
 }
 
+img {
+  display: block;
+}
+
 label {
   min-height: 3rem;
   padding: 0rem 0.5rem;
@@ -235,8 +247,13 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-light-3-a);
-  border-bottom: 1px solid var(--color-mid-3);
+  background-color: inherit;
+  border-bottom: 1px solid var(--color-light-1);
+}
+
+input:focus,
+textarea:focus {
+  background-color: white;
 }
 
 textarea {
@@ -282,6 +299,12 @@ button {
   justify-content: space-around;
   align-items: center;
   outline: 1px solid var(--color-dark-1);
+}
+
+.unavailable {
+  cursor: no-drop;
+  color: var(--color-light-1);
+  fill: var(--color-light-1);
 }
 
 @media screen and (min-width: 480px) {
