@@ -7,27 +7,56 @@ import { headers } from "../next.config";
 export default function ProductForm({ productToEdit, setProductToEdit }) {
   const router = useRouter();
 
-  const [previewFileSource, setPreviewFileSource] = useState("");
+  const [previewFileSource, setPreviewFileSource] = useState(
+    productToEdit ? productToEdit.images : ""
+  );
 
-  function handlePreview(event) {
-    const files = event.target.files;
-    const filesFromReader = [];
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.readAsDataURL(files[i]);
-      reader.onloadend = (event) => {
-        filesFromReader.push(event.target.result);
-        setPreviewFileSource(filesFromReader);
-      };
+  function handlePreview() {
+    const files = document.getElementById("images").files;
+    if (files.length === 0) {
+      console.log("E M P T Y");
+      setPreviewFileSource("");
+    } else {
+      console.log("P R E V I E W", files.length);
+      const filesFromReader = [];
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[i]);
+        reader.onloadend = (event) => {
+          filesFromReader.push(event.target.result);
+          setPreviewFileSource(filesFromReader);
+        };
+      }
     }
   }
 
-  async function handleImagesUpload(formImages) {
+  async function handlePreviewDeleteItem(event, index) {
+    event.preventDefault();
+    console.log("D E L E T E - index", index);
+    const files = document.getElementById("images").files;
+    console.log("O L D - files", files);
+    let list = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+      if (i === index) {
+        console.log("F O U N D - i", i);
+      } else {
+        console.log("i", i);
+        let file = document.getElementById("images").files[i];
+        list.items.add(file);
+      }
+    }
+    let newFileList = list.files;
+    document.getElementById("images").files = newFileList;
+    console.log("N E W - files", document.getElementById("images").files);
+    handlePreview();
+  }
+
+  async function handleImagesUpload() {
     const urlImages = [];
-    if (formImages.length > 0) {
+    if (previewFileSource.length > 0) {
       const fileFormData = new FormData();
-      for (let i = 0; i < formImages.length; i++) {
-        const file = formImages[i];
+      for (let i = 0; i < previewFileSource.length; i++) {
+        const file = previewFileSource[i];
         fileFormData.append("file", file);
         fileFormData.append("upload_preset", "mog5j9qy");
         const data = await fetch(
@@ -50,7 +79,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
 
-    productData.images = await handleImagesUpload(event.target.images.files);
+    productData.images = await handleImagesUpload();
 
     if (productData.available === "on") {
       productData.available = true;
@@ -105,7 +134,10 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     }
   }
 
-  console.log("previewFileSource", previewFileSource.slice(0));
+  console.log(
+    "previewFileSource before R E T U R N",
+    previewFileSource.slice(0)
+  );
   return (
     <>
       <form
@@ -114,115 +146,124 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           handleSubmit(event);
         }}
       >
-        <label className="grid__itemFull" htmlFor="name">
-          Name:
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            defaultValue={
-              productToEdit ? productToEdit.name : "Name TestObject"
-            }
-          />
-        </label>
+        <fieldset className="grid__itemFull grid">
+          <label className="grid__itemFull" htmlFor="name">
+            Name:
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              defaultValue={
+                productToEdit ? productToEdit.name : "Name TestObject"
+              }
+            />
+          </label>
 
-        <label className="grid__itemFull" htmlFor="description">
-          Description:
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            required
-            defaultValue={
-              productToEdit
-                ? productToEdit.description
-                : "Description TestObject"
-            }
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="description">
+            Description:
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              required
+              defaultValue={
+                productToEdit
+                  ? productToEdit.description
+                  : "Description TestObject"
+              }
+            />
+          </label>
 
-        <label className="grid__itemFull" htmlFor="price">
-          Price:
-          <input
-            type="number"
-            id="price"
-            name="price"
-            defaultValue={productToEdit ? productToEdit.price : 9}
-            required
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="price">
+            Price:
+            <input
+              type="number"
+              id="price"
+              name="price"
+              defaultValue={productToEdit ? productToEdit.price : 9}
+              required
+            />
+          </label>
+        </fieldset>
 
-        <label className="grid__itemFull" htmlFor="category">
-          Category:
-          <input
-            list="category"
-            name="category"
-            defaultValue={
-              productToEdit ? productToEdit.category : "Miscellaneous"
-            }
-          />
-          <datalist id="category">
-            <option value="Chair" />
-            <option value="Lamp" />
-            <option value="Table" />
-            <option value="Bowl" />
-            <option value="Candlestick" />
-            <option value="Miscellaneous" />
-          </datalist>
-        </label>
+        <fieldset className="grid__itemFull grid">
+          <label className="grid__itemFull" htmlFor="category">
+            Category:
+            <input
+              list="category"
+              name="category"
+              defaultValue={
+                productToEdit ? productToEdit.category : "Miscellaneous"
+              }
+            />
+            <datalist id="category">
+              <option value="Chair" />
+              <option value="Lamp" />
+              <option value="Table" />
+              <option value="Bowl" />
+              <option value="Candlestick" />
+              <option value="Miscellaneous" />
+            </datalist>
+          </label>
 
-        <label className="grid__itemFull" htmlFor="designer">
-          Designer:
-          <input
-            type="text"
-            id="designer"
-            name="designer"
-            defaultValue={productToEdit ? productToEdit.designer : "Designer"}
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="designer">
+            Designer:
+            <input
+              type="text"
+              id="designer"
+              name="designer"
+              defaultValue={productToEdit ? productToEdit.designer : "Designer"}
+            />
+          </label>
 
-        <label className="grid__itemFull" htmlFor="condition">
-          Condition:
-          <input
-            type="text"
-            id="condition"
-            name="condition"
-            defaultValue={
-              productToEdit ? productToEdit.condition : "Good condition"
-            }
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="condition">
+            Condition:
+            <input
+              type="text"
+              id="condition"
+              name="condition"
+              defaultValue={
+                productToEdit ? productToEdit.condition : "Good condition"
+              }
+            />
+          </label>
+        </fieldset>
 
-        <label className="grid__itemFull" htmlFor="width">
-          Width:
-          <input
-            type="number"
-            id="width"
-            name="width"
-            defaultValue={productToEdit ? productToEdit.dimensions.width : 9}
-          />
-        </label>
+        <fieldset className="grid__itemFull grid">
+          <label className="grid__itemFull" htmlFor="width">
+            Width:
+            <input
+              type="number"
+              id="width"
+              name="width"
+              min="0"
+              defaultValue={productToEdit ? productToEdit.dimensions.width : 9}
+            />
+          </label>
 
-        <label className="grid__itemFull" htmlFor="depth">
-          Depth:
-          <input
-            type="number"
-            id="depth"
-            name="depth"
-            defaultValue={productToEdit ? productToEdit.dimensions.depth : 9}
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="depth">
+            Depth:
+            <input
+              type="number"
+              id="depth"
+              name="depth"
+              min="0"
+              defaultValue={productToEdit ? productToEdit.dimensions.depth : 9}
+            />
+          </label>
 
-        <label className="grid__itemFull" htmlFor="height">
-          Height:
-          <input
-            type="number"
-            id="height"
-            name="height"
-            defaultValue={productToEdit ? productToEdit.dimensions.height : 9}
-          />
-        </label>
+          <label className="grid__itemFull" htmlFor="height">
+            Height:
+            <input
+              type="number"
+              id="height"
+              name="height"
+              min="0"
+              defaultValue={productToEdit ? productToEdit.dimensions.height : 9}
+            />
+          </label>
+        </fieldset>
 
         <label className="grid__itemFull" htmlFor="images">
           Images:
@@ -238,22 +279,29 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           />
         </label>
 
-        <section className="grid__itemFull grid">
+        <fieldset className="grid__itemFull grid form__imagePreview">
           {previewFileSource ? (
             <>
-              {previewFileSource.map((file, i) => (
-                <img
-                  key={i}
-                  src={file}
-                  alt={`Selected image ${i}`}
-                  className="grid__item025 outline"
-                />
-              ))}
+              {previewFileSource.map((file, i) => {
+                return (
+                  <div key={i} className="imageWrap grid__item025 outline">
+                    <button
+                      className="outline"
+                      onClick={(event) => {
+                        handlePreviewDeleteItem(event, i);
+                      }}
+                    >
+                      X
+                    </button>
+                    <img src={file} alt={`Selected image ${i + 1}`} />
+                  </div>
+                );
+              })}
             </>
           ) : (
             <h4 className="grid__itemFull">Please select an image</h4>
           )}
-        </section>
+        </fieldset>
 
         <label className="grid__itemFull" htmlFor="available">
           Available:
@@ -265,9 +313,11 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
           />
         </label>
 
-        <button className="grid__item2" type="submit">
-          {productToEdit ? "Edit product" : "Create product"}
-        </button>
+        <fieldset className="grid__itemFull cc">
+          <button type="submit">
+            {productToEdit ? "Save changes" : "Create product"}
+          </button>
+        </fieldset>
       </form>
     </>
   );

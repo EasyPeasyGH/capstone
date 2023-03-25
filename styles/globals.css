@@ -24,6 +24,7 @@
   border: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--color-dark-3);
+  transition: all 0.3s;
 }
 
 html,
@@ -225,21 +226,31 @@ form {
   align-items: center;
 }
 
+label:has(#available) {
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+.form__imagePreview {
+  border-top: 1px solid var(--color-dark-1);
+  text-align: center;
+}
+
 form img {
   width: 100%;
 }
 
-form section {
-  border-top: 1px solid var(--color-dark-1);
+fieldset {
+  all: unset;
   border-bottom: 1px solid var(--color-dark-1);
-  margin-top: 0.5rem;
   min-height: 6rem;
 }
 
-form section > h4 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+fieldset:last-child {
+  border-bottom: none;
+}
+
+form > fieldset > label:last-child > input:last-child {
+  border-bottom: none;
 }
 
 img {
@@ -256,13 +267,18 @@ label {
 
 input,
 textarea {
-  width: 50%;
+  width: 75%;
   height: 3rem;
   padding: 0.5rem;
   color: var(--color-mid-1);
   font-size: 1rem;
   background-color: inherit;
   border-bottom: 1px solid var(--color-light-1);
+}
+
+#images {
+  border-bottom: none;
+  padding-top: 0.75rem;
 }
 
 #available {
@@ -275,13 +291,25 @@ textarea:focus {
 }
 
 textarea {
-  height: 5rem;
+  height: 6rem;
 }
 
 .imageWrap {
   position: relative;
-  width: 100%;
-  height: calc(100vw * 1.5);
+  height: 100%;
+}
+
+.imageWrap > button {
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  color: var(--color-dark-1);
+  margin: 0;
+}
+
+.imageWrap > button:focus {
+  background-color: inherit;
+  color: inherit;
 }
 
 button {
@@ -323,6 +351,15 @@ button {
   cursor: no-drop;
   color: var(--color-light-1);
   fill: var(--color-light-1);
+}
+
+.cc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 @media screen and (min-width: 480px) {
