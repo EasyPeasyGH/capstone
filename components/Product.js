@@ -17,17 +17,21 @@ export default function Product({
 
   return (
     <div className="product" onClick={() => router.push(`product/${id}`)}>
-      <img
-        src={typeof images[0] === "string" ? `${images[0]}` : "Empty"}
-        alt={
-          typeof images[0] === "string"
-            ? `Image for ${name}`
-            : `No image for ${name}`
-        }
-        width="100%"
-        // layout="fill"
-        // objectFit="contain"
-      />
+      <div className="imageWrap">
+        <button className="outline">{images.length}</button>
+        <img src={images[0]} alt={`Image 1 for ${name}`} width="100%" />
+        {/* {images.map((image, i) => {
+          return (
+            <img
+              key={i}
+              src={image}
+              alt={`Image ${i + 1} for ${name}`}
+              width="100%"
+            />
+          );
+        })} */}
+      </div>
+
       <div className="product__info">
         <h4>{name}</h4>
         <p>{`${price} €`}</p>

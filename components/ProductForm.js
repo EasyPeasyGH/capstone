@@ -8,8 +8,39 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
   const router = useRouter();
 
   const [previewFileSource, setPreviewFileSource] = useState(
-    productToEdit ? productToEdit.images : ""
+    productToEdit ? productToEdit.images : []
   );
+
+  useEffect(() => {
+    productToEdit && handleURLToFile();
+    function handleURLToFile() {
+      const files = productToEdit.images;
+      console.log("files to P U S H  url - xhr - bolb - file - input", files);
+      let data = new DataTransfer();
+
+      for (let i = 0; i < files.length; i++) {
+        console.log("- - - - - i - - - - -", i);
+        const xhr = new XMLHttpRequest();
+        xhr.onloadend = () => {
+          const blob = xhr.response;
+          let file = new File([blob], `${productToEdit.name}_${i}`, {
+            type: blob.type,
+          });
+          console.log("file", file);
+          data.items.add(file);
+          document.getElementById("images").files = data.files;
+          // handlePreview();
+        };
+        xhr.open("GET", files[i]);
+        xhr.responseType = "blob";
+        xhr.send();
+
+        // const response = await fetch(files[i]);
+        // console.log("response", response);
+        // const blob = await response.blob();
+      }
+    }
+  }, [productToEdit]);
 
   function handlePreview() {
     const files = document.getElementById("images").files;
@@ -181,8 +212,8 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
               type="number"
               id="price"
               name="price"
-              defaultValue={productToEdit ? productToEdit.price : 9}
               required
+              defaultValue={productToEdit ? productToEdit.price : 9}
             />
           </label>
         </fieldset>
@@ -193,9 +224,8 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
             <input
               list="category"
               name="category"
-              defaultValue={
-                productToEdit ? productToEdit.category : "Miscellaneous"
-              }
+              required
+              defaultValue={productToEdit ? productToEdit.category : ""}
             />
             <datalist id="category">
               <option value="Chair" />
