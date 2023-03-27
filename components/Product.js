@@ -14,9 +14,10 @@ export default function Product({
   images,
 }) {
   const router = useRouter();
+  const { push } = router;
 
   return (
-    <div className="product" onClick={() => router.push(`product/${id}`)}>
+    <div className="product" onClick={() => push(`product/${id}`)}>
       <div className="imageWrap">
         <button className="outline">{images.length}</button>
         <img src={images[0]} alt={`Image 1 for ${name}`} width="100%" />

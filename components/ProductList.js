@@ -1,9 +1,7 @@
-import { useRouter } from "next/router";
 import Product from "./Product";
 
 export default function ProductList({ products }) {
-  const router = useRouter();
-  console.log("ProductList <---");
+  console.log("ProductList <---", products);
   return (
     <>
       <ul className="grid">

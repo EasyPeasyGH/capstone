@@ -2,10 +2,10 @@ import Head from "next/head";
 import ProductList from "../components/ProductList";
 import FilterBar from "../components/FilterBar";
 import { useEffect, useState } from "react";
-// import { useEffect } from "react";
 import Link from "next/link";
 import Product from "../db/models/Product";
 import dbConnect from "../db/connect";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
   await dbConnect();
@@ -18,19 +18,25 @@ export async function getServerSideProps() {
 
 export default function Home({ data }) {
   const [products, setProducts] = useState(data);
+  const router = useRouter();
+  const { push } = router;
 
-  function showAll(data) {
+  function showAll() {
+    console.log("<--- show A L L");
     setProducts(data);
-    push("/");
   }
 
-  function filterFor(data, prop) {
-    const filteredProducts = data.filter((p) => p.category === prop);
-    setProducts(filteredProducts);
-    push("/");
+  function filterFor(prop) {
+    console.log("<--- filter F O R", prop);
+    const filteredProducts = data.filter((p) => p.category.includes(prop));
+    if (filteredProducts) {
+      setProducts(filteredProducts);
+    } else {
+      push("/404");
+    }
   }
 
-  console.log("I N D E X <--– products", products);
+  console.log("I N D E X");
   return (
     <>
       <Head>
@@ -39,7 +45,7 @@ export default function Home({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FilterBar />
+      <FilterBar data={data} showAll={showAll} filterFor={filterFor} />
       <ProductList products={products} />
       <section className="mainBottomNav">
         <Link href="/create">Create</Link>
