@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Search from "./Search";
 
-export default function Header() {
+export default function Header({ filterFor }) {
   return (
     <header>
       <div className="headerBar__box">
