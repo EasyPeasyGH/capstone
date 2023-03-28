@@ -10,14 +10,13 @@ import Search from "../components/Search";
 
 export async function getServerSideProps() {
   await dbConnect();
-
   const data = await Product.find();
   return {
     props: { data: JSON.parse(JSON.stringify(data)) },
   };
 }
 
-export default function Home({ data }) {
+export default function Home({ data, search, toggleSearch }) {
   const [products, setProducts] = useState(data);
   const router = useRouter();
   const { push } = router;
@@ -54,7 +53,7 @@ export default function Home({ data }) {
     }
   }
 
-  console.log("I N D E X");
+  console.log("I N D E X", data);
   return (
     <>
       <Head>
@@ -63,7 +62,11 @@ export default function Home({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Search searchFor={searchFor} />
+      <Search
+        search={search}
+        searchFor={searchFor}
+        toggleSearch={toggleSearch}
+      />
       <FilterBar data={data} showAll={showAll} filterFor={filterFor} />
       <ProductList products={products} />
       <section className="mainBottomNav">

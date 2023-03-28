@@ -1,12 +1,26 @@
-export default function Search({ data, searchFor }) {
-  function amountOf(prop) {
-    const Amount = data.filter((p) => p.category.includes(prop)).length;
-    console.log("Amount of", prop, Amount);
-    return Amount;
-  }
+import { useRouter } from "next/router";
+
+export default function Search({ searchFor, search, toggleSearch }) {
+  const router = useRouter();
+  const { push } = router;
   return (
-    <form className="search">
-      <label className="grid__itemFull" htmlFor="name"></label>
+    <form
+      className={search ? "search search--on" : "search"}
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const searchData = Object.fromEntries(formData);
+        console.log("S U B M I T");
+        push("/");
+        search = !search;
+        toggleSearch(search);
+        if (searchData.search > 0) {
+          searchFor(event.target.value.toLowerCase());
+        }
+        event.target.reset();
+      }}
+    >
+      <label htmlFor="name"></label>
       <input
         className="cc"
         type="text"

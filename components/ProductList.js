@@ -1,7 +1,7 @@
 import Product from "./Product";
 
 export default function ProductList({ products }) {
-  console.log("ProductList <---", products);
+  console.log("L I S T", products);
   return (
     <>
       <ul className="grid">

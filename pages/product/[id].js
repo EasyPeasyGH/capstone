@@ -1,8 +1,5 @@
 import Link from "next/link";
 import Head from "next/head";
-// import Image from "next/image";
-// import { useState } from "react";
-// import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Product from "../../db/models/Product";
 import dbConnect from "../../db/connect";
@@ -10,6 +7,7 @@ import dbConnect from "../../db/connect";
 export async function getServerSideProps({ params }) {
   await dbConnect();
   const data = await Product.findById(params.id);
+  const dataAll = await Product.find();
   console.log("data - data - data", data);
   return {
     props: { data: JSON.parse(JSON.stringify(data)) },
@@ -19,8 +17,6 @@ export async function getServerSideProps({ params }) {
 export default function ProductDetail({ data, setProductToEdit }) {
   const router = useRouter();
   const { push } = router;
-
-  // console.log("data - data - data", data);
 
   async function handleDeleteProduct() {
     const response = await fetch(`/api/products/${data._id}`, {
@@ -40,7 +36,7 @@ export default function ProductDetail({ data, setProductToEdit }) {
     push("../create/");
   }
 
-  console.log("Product <--- data", data);
+  console.log("P R O D U C T", data);
 
   return (
     <>
