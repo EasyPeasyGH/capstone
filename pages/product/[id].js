@@ -14,7 +14,12 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-export default function ProductDetail({ data, setProductToEdit }) {
+export default function ProductDetail({
+  data,
+  setProductToEdit,
+  basket,
+  setBasket,
+}) {
   const router = useRouter();
   const { push } = router;
 
@@ -31,13 +36,17 @@ export default function ProductDetail({ data, setProductToEdit }) {
     }
   }
 
-  async function handleEditProduct() {
+  function handleEditProduct() {
     setProductToEdit(data);
     push("../create/");
   }
 
-  console.log("P R O D U C T", data);
+  async function addProductToBasket() {
+    await setBasket((basket) => [...basket, { ...data }]);
+  }
 
+  console.log("P R O D U C T", data);
+  console.log("basket", typeof basket, basket);
   return (
     <>
       <Head>
@@ -66,7 +75,18 @@ export default function ProductDetail({ data, setProductToEdit }) {
           <p>{`Condition: ${data.condition}`}</p>
           <p>{`Dimensions: ${data.dimensions.width} width x ${data.dimensions.depth} depth x ${data.dimensions.height} height`}</p>
           <p>{data.available ? "Available" : "Sold out"}</p>
-          <h4>{`${data.price} €`}</h4>
+          <h4
+            className={!data.available && "unavailable"}
+          >{`${data.price} €`}</h4>
+          {data.available ? (
+            <button onClick={() => addProductToBasket()}>Add to Basket</button>
+          ) : (
+            <button className={!data.available && "unavailable"}>
+              Product sold out
+            </button>
+          )}
+          <p>Basket:</p>
+          <p>{JSON.stringify(basket)}</p>
         </div>
         <div className="grid__item--padding grid__itemFull productDetail__editBar">
           <button onClick={() => handleEditProduct()}>Edit</button>

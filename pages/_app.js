@@ -3,8 +3,8 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }) {
-  const [products, setProducts] = useState({});
   const [productToEdit, setProductToEdit] = useState();
+  const [basket, setBasket] = useState([]);
   const [search, setSearch] = useState(false);
 
   function toggleSearch(state) {
@@ -17,12 +17,12 @@ export default function App({ Component, pageProps }) {
   return (
     <Layout search={search} toggleSearch={toggleSearch}>
       <Component
+        basket={basket}
+        setBasket={setBasket}
         search={search}
         toggleSearch={toggleSearch}
         productToEdit={productToEdit}
         setProductToEdit={setProductToEdit}
-        products={products}
-        setProducts={setProducts}
         {...pageProps}
       />
     </Layout>
