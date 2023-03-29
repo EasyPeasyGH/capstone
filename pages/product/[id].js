@@ -3,12 +3,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Product from "../../db/models/Product";
 import dbConnect from "../../db/connect";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps({ params }) {
   await dbConnect();
   const data = await Product.findById(params.id);
-  const dataAll = await Product.find();
-  console.log("data - data - data", data);
   return {
     props: { data: JSON.parse(JSON.stringify(data)) },
   };
@@ -20,15 +19,16 @@ export default function ProductDetail({
   basket,
   setBasket,
 }) {
+  const [product, setProduct] = useState(data);
   const router = useRouter();
   const { push } = router;
 
   async function handleDeleteProduct() {
-    const response = await fetch(`/api/products/${data._id}`, {
+    const response = await fetch(`/api/products/${product._id}`, {
       method: "DELETE",
     });
     if (response.ok) {
-      console.log("D E L E T E –", data._id);
+      console.log("D E L E T E –", product._id);
       await response.json();
       push("/");
     } else {
@@ -37,16 +37,25 @@ export default function ProductDetail({
   }
 
   function handleEditProduct() {
-    setProductToEdit(data);
+    setProductToEdit(product);
     push("../create/");
   }
 
-  async function addProductToBasket() {
-    await setBasket((basket) => [...basket, { ...data }]);
+  function addProductToBasket() {
+    product.available = !product.available;
+    console.log("product.available", product.available);
+    setBasket((basket) => [...basket, { ...product }]);
   }
 
-  console.log("P R O D U C T", data);
-  console.log("basket", typeof basket, basket);
+  console.log("P R O D U C T", product);
+  console.log("basket", typeof basket, basket, basket.length);
+
+  basket.map((b) => {
+    if (b._id.includes(product._id)) {
+      product.available = false;
+    }
+  });
+
   return (
     <>
       <Head>
@@ -57,31 +66,31 @@ export default function ProductDetail({
       </Head>
       <section className="grid outline">
         <div className="grid__item2 productDetail__imgBox">
-          {data.images.map((img, i) => (
+          {product.images.map((img, i) => (
             <img
               key={i}
               className="grid__item2"
               src={img}
-              alt={`Image ${i + 1} for ${data.name}`}
+              alt={`Image ${i + 1} for ${product.name}`}
               width="100%"
             />
           ))}
         </div>
         <div className="grid__item--padding grid__item2">
-          <h2>{data.name}</h2>
-          <p>{data.description}</p>
-          <p>{`Category: ${data.category}`}</p>
-          <p>{`Designer: ${data.designer}`}</p>
-          <p>{`Condition: ${data.condition}`}</p>
-          <p>{`Dimensions: ${data.dimensions.width} width x ${data.dimensions.depth} depth x ${data.dimensions.height} height`}</p>
-          <p>{data.available ? "Available" : "Sold out"}</p>
+          <h2>{product.name}</h2>
+          <p>{product.description}</p>
+          <p>{`Category: ${product.category}`}</p>
+          <p>{`Designer: ${product.designer}`}</p>
+          <p>{`Condition: ${product.condition}`}</p>
+          <p>{`Dimensions: ${product.dimensions.width} width x ${product.dimensions.depth} depth x ${product.dimensions.height} height`}</p>
+          <p>{product.available ? "Available" : "Sold out"}</p>
           <h4
-            className={!data.available && "unavailable"}
-          >{`${data.price} €`}</h4>
-          {data.available ? (
+            className={product.available ? "" : "unavailable"}
+          >{`${product.price} €`}</h4>
+          {product.available ? (
             <button onClick={() => addProductToBasket()}>Add to Basket</button>
           ) : (
-            <button className={!data.available && "unavailable"}>
+            <button className={product.available ? "" : "unavailable"}>
               Product sold out
             </button>
           )}

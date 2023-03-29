@@ -165,10 +165,6 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
     }
   }
 
-  console.log(
-    "previewFileSource before R E T U R N",
-    previewFileSource.slice(0)
-  );
   return (
     <>
       <form
@@ -212,6 +208,7 @@ export default function ProductForm({ productToEdit, setProductToEdit }) {
               type="number"
               id="price"
               name="price"
+              min="0"
               required
               defaultValue={productToEdit ? productToEdit.price : 9}
             />
