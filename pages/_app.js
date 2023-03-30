@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function App({ Component, pageProps }) {
   const [productToEdit, setProductToEdit] = useState();
   const [basket, setBasket] = useState([]);
+  const [order, setOrder] = useState(false);
   const [amount, setAmount] = useState([]);
   const [search, setSearch] = useState(false);
 
@@ -26,6 +27,8 @@ export default function App({ Component, pageProps }) {
         setProductToEdit={setProductToEdit}
         amount={amount}
         setAmount={setAmount}
+        order={order}
+        setOrder={setOrder}
         {...pageProps}
       />
     </Layout>

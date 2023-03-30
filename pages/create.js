@@ -16,9 +16,6 @@ export default function Create({ productToEdit, setProductToEdit }) {
         productToEdit={productToEdit}
         setProductToEdit={setProductToEdit}
       />
-      <section className="mainBottomNav">
-        <Link href="/">Home</Link>
-      </section>
     </>
   );
 }

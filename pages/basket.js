@@ -4,7 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import BasketProduct from "../components/BasketProduct";
 
-export default function Basket({ basket, setBasket, amount, setAmount }) {
+export default function Basket({
+  basket,
+  setBasket,
+  amount,
+  setAmount,
+  order,
+  setOrder,
+}) {
   let [total, setTotal] = useState(0);
   const router = useRouter();
   const { push } = router;
@@ -38,19 +45,30 @@ export default function Basket({ basket, setBasket, amount, setAmount }) {
     setAmount((amount) => [...amount]);
   }
 
-  function updateProductPrice(event, id, index, productAmount) {
-    console.log("id", id, "index", index);
-    console.log(basket.map((p) => p._id.includes(id)));
-    console.log(amount.map((a) => a._id.includes(id)));
+  function calculatePrice(id, index, productAmount) {
+    // console.log(basket.map((p) => p._id.includes(id)));
+    // console.log(amount.map((a) => a._id.includes(id)));
+    // console.log("basket[index].price", basket[index].price);
+    // console.log("productAmount", productAmount);
+    return Number(basket[index].price * productAmount);
+  }
+
+  async function updateProductPrice(id, index, productAmount) {
+    // console.log("id", id, "index", index);
+    amount[index].price = await calculatePrice(id, index, productAmount);
     console.log("amount[index].price", amount[index].price);
-    amount[index].price = Number(basket[index].price * productAmount);
-    console.log("basket[index].price", basket[index].price);
-    setAmount((amount) => [...amount]);
+    setAmount((amount) => {
+      return [...amount];
+    });
   }
 
   amount.map((a) => {
     total = total + a.price;
   });
+
+  if (basket.length > 0) {
+    setOrder(false);
+  }
 
   console.log("B A S K E T", amount);
   return (
@@ -75,37 +93,47 @@ export default function Basket({ basket, setBasket, amount, setAmount }) {
           const formData = new FormData(event.target);
           const basketData = Object.fromEntries(formData);
           console.log(basketData);
+          if (basket.length > 0) {
+            setOrder(!order);
+          }
           setBasket([]);
           setAmount([]);
           event.target.reset();
         }}
       >
         <fieldset className="grid__itemFull grid">
-          <ul className="grid__itemFull grid">
-            {basket.map((p, i) => {
-              return (
-                <li key={p._id} className="product grid__itemFull grid">
-                  <BasketProduct
-                    index={i}
-                    id={p._id}
-                    name={p.name}
-                    description={p.description}
-                    available={p.available}
-                    price={p.price}
-                    amountPrice={amount[i].price}
-                    category={p.category}
-                    designer={p.designer}
-                    condition={p.condition}
-                    dimensions={p.dimensions}
-                    images={p.images}
-                    currency={currency}
-                    handleRemoveProduct={handleRemoveProduct}
-                    updateProductPrice={updateProductPrice}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          {order ? (
+            <h2 className="grid__itemFull grid__item--padding gcc thankYou">
+              Thank you for your order.
+              <br /> We will take care of it lovingly!
+            </h2>
+          ) : (
+            <ul className="grid__itemFull grid">
+              {basket.map((p, i) => {
+                return (
+                  <li key={p._id} className="product grid__itemFull grid">
+                    <BasketProduct
+                      index={i}
+                      id={p._id}
+                      name={p.name}
+                      description={p.description}
+                      available={p.available}
+                      price={p.price}
+                      amountPrice={amount[i].price}
+                      category={p.category}
+                      designer={p.designer}
+                      condition={p.condition}
+                      dimensions={p.dimensions}
+                      images={p.images}
+                      currency={currency}
+                      handleRemoveProduct={handleRemoveProduct}
+                      updateProductPrice={updateProductPrice}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </fieldset>
         <fieldset className="grid__itemFull grid">
           <label className="grid__itemBasket">Add a note to your order:</label>

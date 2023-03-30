@@ -69,7 +69,7 @@ export default function BasketProduct({
             defaultValue={amount}
             onChange={(event) => {
               setAmount(event.target.value);
-              updateProductPrice(event, id, index, amount);
+              updateProductPrice(id, index, event.target.value);
             }}
             min="1"
             max="10"
