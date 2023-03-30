@@ -18,6 +18,8 @@ export default function ProductDetail({
   setProductToEdit,
   basket,
   setBasket,
+  amount,
+  setAmount,
 }) {
   const [product, setProduct] = useState(data);
   const router = useRouter();
@@ -45,10 +47,11 @@ export default function ProductDetail({
     product.available = !product.available;
     console.log("product.available", product.available);
     setBasket((basket) => [...basket, { ...product }]);
+    setAmount((amount) => [...amount, { ...product }]);
   }
 
-  console.log("P R O D U C T", product);
   console.log("basket", typeof basket, basket, basket.length);
+  console.log("amount", typeof amount, amount, amount.length);
 
   basket.map((b) => {
     if (b._id.includes(product._id)) {

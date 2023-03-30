@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function BasketProduct({
   index,
@@ -8,6 +9,7 @@ export default function BasketProduct({
   description,
   available,
   price,
+  amountPrice,
   category,
   designer,
   condition,
@@ -15,9 +17,12 @@ export default function BasketProduct({
   images,
   currency,
   handleRemoveProduct,
+  updateProductPrice,
 }) {
   const router = useRouter();
   const { push } = router;
+
+  const [amount, setAmount] = useState(1);
 
   return (
     <>
@@ -38,20 +43,37 @@ export default function BasketProduct({
         />
       </div>
       <div className="grid__itemBasket2">
-        <label htmlFor="name">
-          <input type="text" id="name" name="name" value={name} readonly />
-        </label>
-        <label htmlFor="category">
+        <label htmlFor={`name${index}`}>
           <input
             type="text"
-            id="category"
-            name="category"
-            value={category}
-            readonly
+            id={`name${index}`}
+            name={`name${index}`}
+            value={name}
+            readOnly
           />
         </label>
-        <label htmlFor="amount">
-          <input type="number" id="amount" name="amount" value={1} min="0" />
+        <label htmlFor={`category${index}`}>
+          <input
+            type="text"
+            id={`category${index}`}
+            name={`nacategoryme${index}`}
+            value={category}
+            readOnly
+          />
+        </label>
+        <label htmlFor={`amount${index}`}>
+          <input
+            type="number"
+            id={`amount${index}`}
+            name={`amount${index}`}
+            defaultValue={amount}
+            onChange={(event) => {
+              setAmount(event.target.value);
+              updateProductPrice(event, id, index, amount);
+            }}
+            min="1"
+            max="10"
+          />
         </label>
       </div>
       <div className="grid__itemBasket13">
@@ -61,13 +83,19 @@ export default function BasketProduct({
             id="currency"
             name="currency"
             value={currency[1]}
-            readonly
+            readOnly
           />
         </label>
       </div>
       <div className="grid__itemBasket23">
-        <label htmlFor="price">
-          <input type="number" id="price" name="price" value={price} readonly />
+        <label htmlFor={`price${index}`}>
+          <input
+            type="number"
+            id={`price${index}`}
+            name={`price${index}`}
+            value={amountPrice}
+            readOnly
+          />
         </label>
       </div>
     </>

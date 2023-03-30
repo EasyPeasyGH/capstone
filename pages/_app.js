@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function App({ Component, pageProps }) {
   const [productToEdit, setProductToEdit] = useState();
   const [basket, setBasket] = useState([]);
+  const [amount, setAmount] = useState([]);
   const [search, setSearch] = useState(false);
 
   function toggleSearch(state) {
@@ -23,6 +24,8 @@ export default function App({ Component, pageProps }) {
         toggleSearch={toggleSearch}
         productToEdit={productToEdit}
         setProductToEdit={setProductToEdit}
+        amount={amount}
+        setAmount={setAmount}
         {...pageProps}
       />
     </Layout>

@@ -175,6 +175,14 @@ sub {
 #basket h4 {
   text-decoration: underline;
   margin: 0;
+  overflow: hidden;
+}
+
+#total {
+  font-size: 4rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-dark-1);
 }
 
 .basketInfo {
