@@ -87,23 +87,22 @@ export default function ProductDetail({
           <h4
             className={product.available ? "" : "unavailable"}
           >{`${product.price} €`}</h4>
-          {product.available ? (
-            <button onClick={() => addProductToBasket()}>Add to Basket</button>
-          ) : (
-            <button className={product.available ? "" : "unavailable"}>
-              Product sold out
-            </button>
-          )}
-          <p>Basket:</p>
-          <p>{JSON.stringify(basket)}</p>
+          <section className="gcc">
+            {product.available ? (
+              <button onClick={() => addProductToBasket()}>
+                Add to Basket
+              </button>
+            ) : (
+              <button className={product.available ? "" : "unavailable"}>
+                Product sold out
+              </button>
+            )}
+          </section>
         </div>
         <div className="grid__item--padding grid__itemFull productDetail__editBar">
           <button onClick={() => handleEditProduct()}>Edit</button>
           <button onClick={() => handleDeleteProduct()}> Delete</button>
         </div>
-      </section>
-      <section className="mainBottomNav">
-        <Link href="/">Home</Link>
       </section>
     </>
   );

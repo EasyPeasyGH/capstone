@@ -16,7 +16,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Home({ data, search, toggleSearch }) {
+export default function Home({ data, search, toggleSearch, basket }) {
   const [products, setProducts] = useState(data);
   const router = useRouter();
   const { push } = router;
@@ -68,10 +68,7 @@ export default function Home({ data, search, toggleSearch }) {
         toggleSearch={toggleSearch}
       />
       <FilterBar data={data} showAll={showAll} filterFor={filterFor} />
-      <ProductList products={products} />
-      <section className="mainBottomNav">
-        <Link href="/create">Create</Link>
-      </section>
+      <ProductList products={products} basket={basket} />
     </>
   );
 }

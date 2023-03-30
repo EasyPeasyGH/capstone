@@ -1,6 +1,6 @@
 import Product from "./Product";
 
-export default function ProductList({ products }) {
+export default function ProductList({ products, basket }) {
   console.log("L I S T", products);
   return (
     <>
@@ -18,6 +18,7 @@ export default function ProductList({ products }) {
               condition={p.condition}
               dimensions={p.dimensions}
               images={p.images}
+              basket={basket}
             />
           </li>
         ))}

@@ -8,6 +8,7 @@ export default function Basket({ basket, setBasket }) {
   let [total, setTotal] = useState(0);
   const router = useRouter();
   const { push } = router;
+  const currency = ["$", "€", "£", "¥"];
 
   // async function setAvailableDatabase() {
   //   data.available = !data.available;
@@ -29,6 +30,14 @@ export default function Basket({ basket, setBasket }) {
   //   }
   // }
 
+  async function handleRemoveProduct(event, id, index) {
+    console.log("R E M O V E");
+    console.log("id", id, "index", index);
+    console.log(basket.map((p) => p._id.includes(id)));
+    basket.splice(index, 1);
+    setBasket((basket) => [...basket]);
+  }
+
   basket.map((b) => {
     total = total + b.price;
   });
@@ -42,6 +51,12 @@ export default function Basket({ basket, setBasket }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <section className="grid basketInfo">
+        <h4 className="grid__itemBasket grid__item--padding outline">Image</h4>
+        <h4 className="grid__itemBasket2 grid__item--padding">Info</h4>
+        <h4 className="grid__itemBasket13 grid__item--padding">Currency</h4>
+        <h4 className="grid__itemBasket23 grid__item--padding">Price</h4>
+      </section>
       <form
         id="basket"
         className="grid"
@@ -56,7 +71,7 @@ export default function Basket({ basket, setBasket }) {
               return (
                 <li key={p._id} className="product grid__itemFull grid">
                   <BasketProduct
-                    key={i}
+                    index={i}
                     id={p._id}
                     name={p.name}
                     description={p.description}
@@ -67,6 +82,8 @@ export default function Basket({ basket, setBasket }) {
                     condition={p.condition}
                     dimensions={p.dimensions}
                     images={p.images}
+                    currency={currency}
+                    handleRemoveProduct={handleRemoveProduct}
                   />
                 </li>
               );
@@ -83,11 +100,14 @@ export default function Basket({ basket, setBasket }) {
           />
         </fieldset>
         <fieldset className="grid__itemFull grid">
-          <p className="grid__itemBasket2 grid__item--padding cc">
+          <h4 className="grid__itemBasket14 grid__item--padding">{`Subtotal:`}</h4>
+          <h4 className="grid__itemBasket13 grid__item--padding">
+            {currency[1]}
+          </h4>
+          <h4 className="grid__itemBasket23 grid__item--padding">{total}</h4>
+          <p className="grid__itemBasket312 grid__item--padding gcc">
             Tax included and shipping calculated at checkout
           </p>
-          <h4 className="grid__itemBasket grid__item--padding">{`Subtotal:`}</h4>
-          <h4 className="grid__itemBasket grid__item--padding">{`${total} €`}</h4>
         </fieldset>
         <fieldset className="grid__itemFull cc">
           <button type="submit">Check out</button>

@@ -167,23 +167,6 @@ sub {
   min-height: 6rem;
 }
 
-.grid--margin {
-  margin: 0.5rem 0rem;
-}
-
-.grid--center {
-  justify-content: center;
-  text-align: center;
-}
-
-.grid__item025 {
-  grid-column: span 6;
-}
-
-.grid__itemBasket {
-  grid-column: span 3;
-}
-
 #basket input,
 #basket textarea {
   width: 100%;
@@ -191,10 +174,41 @@ sub {
 
 #basket h4 {
   text-decoration: underline;
+  margin: 0;
+}
+
+.basketInfo {
+  border-bottom: 1px solid var(--color-dark-1);
+}
+
+.basketInfo h4 {
+  margin: 0;
+  overflow: hidden;
+}
+
+.grid__itemBasket14 {
+  grid-column: 1 / 4;
+}
+
+.grid__itemBasket13 {
+  grid-column: 4 / 10;
+}
+
+.grid__itemBasket23 {
+  grid-column: 10 / -1;
+}
+
+.grid__itemBasket312 {
+  grid-column: 1 / -1;
+}
+
+.grid__itemBasket {
+  grid-column: span 3;
 }
 
 .grid__itemBasket2 {
-  grid-column: span 6;
+  grid-column: span 9;
+  outline: 1px solid var(--color-dark-1);
 }
 
 .grid__itemBasket3 {
@@ -205,16 +219,20 @@ sub {
   grid-column: 1 / -1;
 }
 
-.grid__item--padding {
-  padding: 1rem 0.5rem;
-}
-
 .grid__item2 {
   grid-column: 1 / -1;
 }
 
+.grid__item025 {
+  grid-column: span 6;
+}
+
 .grid__itemFull {
   grid-column: 1 / -1;
+}
+
+.grid__item--padding {
+  padding: 1rem 0.5rem;
 }
 
 footer {
@@ -229,7 +247,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  border-top: 1px solid var(--color-dark-1);
+  border-bottom: 1px solid var(--color-dark-1);
 }
 
 .footerBar {
@@ -358,8 +376,9 @@ textarea {
 
 .imageWrap > button {
   position: absolute;
+  width: 3rem;
   top: 0;
-  right: 0;
+  left: 0;
   background-color: transparent;
   color: var(--color-dark-1);
   margin: 0;
@@ -371,8 +390,8 @@ textarea {
 }
 
 button {
-  padding: 0.5rem 0.8rem;
-  height: 2rem;
+  padding: 0.5rem 1rem;
+  height: 3rem;
   margin: 1rem 0.5rem;
   background-color: var(--color-dark-1);
   color: var(--color-light-3);
@@ -428,12 +447,36 @@ button.unavailable {
   margin: 0;
 }
 
+.gcc {
+  text-align: center;
+  justify-content: center;
+}
+
 @media screen and (min-width: 480px) {
   .grid__item:nth-child(1n) {
     grid-column: span 6;
   }
   .grid__item025 {
     grid-column: span 4;
+  }
+  .grid__itemBasket2 {
+    grid-column: span 6;
+    outline: none;
+  }
+  .grid__itemBasket13 {
+    grid-column: span 1;
+  }
+
+  .grid__itemBasket23 {
+    grid-column: span 2;
+  }
+  .grid__itemBasket14 {
+    grid-column: 4 / 10;
+  }
+  .grid__itemBasket312 {
+    grid-column: 1 / 4;
+    grid-row-start: 1;
+    text-align: left;
   }
 }
 
