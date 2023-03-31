@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BasketProduct from "../components/BasketProduct";
+import Script from "next/script";
+import confetti from "https://cdn.skypack.dev/canvas-confetti";
 
 export default function Basket({
   basket,
@@ -70,6 +72,50 @@ export default function Basket({
     setOrder(false);
   }
 
+  // - - - - -
+
+  function party() {
+    confetti();
+  }
+
+  // var count = 200;
+  // var defaults = {
+  //   origin: { y: 0.7 },
+  // };
+
+  // function fire(particleRatio, opts) {
+  //   confetti(
+  //     Object.assign({}, defaults, opts, {
+  //       particleCount: Math.floor(count * particleRatio),
+  //     })
+  //   );
+  // }
+
+  // fire(0.25, {
+  //   spread: 26,
+  //   startVelocity: 55,
+  // });
+  // fire(0.2, {
+  //   spread: 60,
+  // });
+  // fire(0.35, {
+  //   spread: 100,
+  //   decay: 0.91,
+  //   scalar: 0.8,
+  // });
+  // fire(0.1, {
+  //   spread: 120,
+  //   startVelocity: 25,
+  //   decay: 0.92,
+  //   scalar: 1.2,
+  // });
+  // fire(0.1, {
+  //   spread: 120,
+  //   startVelocity: 45,
+  // });
+
+  // - - - - -
+
   console.log("B A S K E T", amount);
   return (
     <>
@@ -79,12 +125,14 @@ export default function Basket({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <section className="grid basketInfo">
         <h4 className="grid__itemBasket grid__item--padding outline">Image</h4>
         <h4 className="grid__itemBasket2 grid__item--padding">Info</h4>
         <h4 className="grid__itemBasket13 grid__item--padding">Currency</h4>
         <h4 className="grid__itemBasket23 grid__item--padding">Price</h4>
       </section>
+
       <form
         id="basket"
         className="grid"
@@ -99,14 +147,17 @@ export default function Basket({
           setBasket([]);
           setAmount([]);
           event.target.reset();
+          party();
         }}
       >
         <fieldset className="grid__itemFull grid">
           {order ? (
-            <h2 className="grid__itemFull grid__item--padding gcc thankYou">
-              Thank you for your order.
-              <br /> We will take care of it lovingly!
-            </h2>
+            <>
+              <h2 className="grid__itemFull grid__item--padding gcc">
+                Thank you for your order.
+                <br /> We will take care of it lovingly!
+              </h2>
+            </>
           ) : (
             <ul className="grid__itemFull grid">
               {basket.map((p, i) => {
